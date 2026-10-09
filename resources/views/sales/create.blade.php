@@ -95,7 +95,7 @@
                                 <label class="block text-xs font-bold text-slate-600 mb-1 text-center">Quantity</label>
                                 <div class="flex items-center rounded-xl bg-white border border-slate-300 overflow-hidden shadow-xs">
                                     <button type="button" @click="item.quantity = Math.max(1, (parseInt(item.quantity) || 1) - 1); syncPayment();" class="px-3 py-2 text-slate-600 hover:bg-slate-100 font-black text-base">-</button>
-                                    <input type="number" :name="`items[${index}][quantity]`" x-model.number="item.quantity" @input="syncPayment()" min="1" required class="w-full py-2 text-center text-sm font-black text-slate-900 border-x border-slate-200 focus:outline-none">
+                                    <input type="number" :name="`items[${index}][quantity]`" x-model.number="item.quantity" @input="syncPayment()" @focus="$event.target.select()" min="1" placeholder="1" required class="w-full py-2 text-center text-sm font-black text-slate-900 border-x border-slate-200 focus:outline-none">
                                     <button type="button" @click="item.quantity = (parseInt(item.quantity) || 1) + 1; syncPayment();" class="px-3 py-2 text-slate-600 hover:bg-slate-100 font-black text-base">+</button>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                                     <label class="block text-xs font-bold text-slate-800">Selling Price ($)</label>
                                     <span class="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-1 rounded">Variable</span>
                                 </div>
-                                <input type="number" step="0.01" :name="`items[${index}][unit_price]`" x-model.number="item.unit_price" @input="syncPayment()" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-black text-slate-900 focus:ring-2 focus:ring-emerald-500">
+                                <input type="number" step="0.01" :name="`items[${index}][unit_price]`" x-model.number="item.unit_price" @input="syncPayment()" @focus="$event.target.select()" min="0" placeholder="0.00" required class="w-full px-3 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-black text-slate-900 focus:ring-2 focus:ring-emerald-500">
                                 
                                 <!-- Real-time Line Profit Indicator -->
                                 <div class="mt-1 flex justify-between items-center text-[10px]" x-show="item.product_id">
@@ -118,7 +118,7 @@
                             <!-- Line Discount -->
                             <div class="w-full md:w-28">
                                 <label class="block text-xs font-bold text-slate-600 mb-1">Discount ($)</label>
-                                <input type="number" step="0.01" :name="`items[${index}][line_discount]`" x-model.number="item.line_discount" @input="syncPayment()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 text-sm text-amber-700 font-semibold focus:ring-2 focus:ring-emerald-500">
+                                <input type="number" step="0.01" :name="`items[${index}][line_discount]`" x-model.number="item.line_discount" @input="syncPayment()" @focus="$event.target.select()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 text-sm text-amber-700 font-semibold focus:ring-2 focus:ring-emerald-500">
                             </div>
 
                             <!-- Line Total -->
@@ -167,7 +167,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">Amount Paid by Customer ($)</label>
-                                <input type="number" step="0.01" name="amount_paid" x-model.number="amount_paid" @input="userManuallySetPayment = true" min="0" class="w-full px-4 py-3 rounded-2xl bg-emerald-50/50 border-2 border-emerald-500 text-emerald-900 text-lg font-black focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                <input type="number" step="0.01" name="amount_paid" x-model.number="amount_paid" @input="userManuallySetPayment = true" @focus="$event.target.select()" min="0" placeholder="0.00" class="w-full px-4 py-3 rounded-2xl bg-emerald-50/50 border-2 border-emerald-500 text-emerald-900 text-lg font-black focus:outline-none focus:ring-2 focus:ring-emerald-600">
                             </div>
 
                             <div>
@@ -186,11 +186,11 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-500 mb-1">Extra Discount ($)</label>
-                                    <input type="number" step="0.01" name="discount_amount" x-model.number="discount_amount" @input="syncPayment()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-amber-700">
+                                    <input type="number" step="0.01" name="discount_amount" x-model.number="discount_amount" @input="syncPayment()" @focus="$event.target.select()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-amber-700">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-500 mb-1">Tax / VAT ($)</label>
-                                    <input type="number" step="0.01" name="tax_amount" x-model.number="tax_amount" @input="syncPayment()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700">
+                                    <input type="number" step="0.01" name="tax_amount" x-model.number="tax_amount" @input="syncPayment()" @focus="$event.target.select()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700">
                                 </div>
                             </div>
                         </div>
@@ -292,17 +292,17 @@
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Buying Cost ($)</label>
-                            <input type="number" step="0.01" x-model="newProduct.cost_price" @keydown.enter.prevent="submitQuickProduct()" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                            <input type="number" step="0.01" x-model="newProduct.cost_price" @keydown.enter.prevent="submitQuickProduct()" @focus="$event.target.select()" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Selling Price ($)</label>
-                            <input type="number" step="0.01" x-model="newProduct.selling_price" @keydown.enter.prevent="submitQuickProduct()" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-bold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                            <input type="number" step="0.01" x-model="newProduct.selling_price" @keydown.enter.prevent="submitQuickProduct()" @focus="$event.target.select()" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-bold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
                         </div>
                     </div>
 
                     <div>
                         <label class="block text-xs font-bold text-slate-700 mb-1">Opening Stock Qty</label>
-                        <input type="number" x-model="newProduct.current_stock" @keydown.enter.prevent="submitQuickProduct()" placeholder="0" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                        <input type="number" x-model="newProduct.current_stock" @keydown.enter.prevent="submitQuickProduct()" @focus="$event.target.select()" placeholder="0" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
                     </div>
                 </div>
 
@@ -334,15 +334,15 @@
                     {
                         product_id: '',
                         quantity: 1,
-                        unit_price: 0,
+                        unit_price: '',
                         cost_price: 0,
-                        line_discount: 0,
+                        line_discount: '',
                         available_stock: null
                     }
                 ],
-                tax_amount: 0,
-                discount_amount: 0,
-                amount_paid: 0,
+                tax_amount: '',
+                discount_amount: '',
+                amount_paid: '',
                 userManuallySetPayment: false,
 
                 openQuickAddModal() {
@@ -357,7 +357,7 @@
                 },
 
                 addItem() {
-                    this.items.push({ product_id: '', quantity: 1, unit_price: 0, cost_price: 0, line_discount: 0, available_stock: null });
+                    this.items.push({ product_id: '', quantity: 1, unit_price: '', cost_price: 0, line_discount: '', available_stock: null });
                     this.$nextTick(() => lucide.createIcons());
                 },
                 removeItem(index) {
@@ -369,8 +369,8 @@
                 onProductSelect(item) {
                     const prod = this.catalog.find(p => p.id == item.product_id);
                     if (prod) {
-                        item.unit_price = parseFloat(prod.selling_price || 0);
-                        item.cost_price = parseFloat(prod.cost_price || 0);
+                        item.unit_price = prod.selling_price !== null && prod.selling_price !== undefined ? parseFloat(prod.selling_price) : '';
+                        item.cost_price = prod.cost_price !== null && prod.cost_price !== undefined ? parseFloat(prod.cost_price) : 0;
                         item.available_stock = parseInt(prod.current_stock || 0);
                         this.syncPayment();
                     }
@@ -404,12 +404,14 @@
                 },
                 syncPayment() {
                     if (!this.userManuallySetPayment) {
-                        this.amount_paid = parseFloat(this.calculateGrandTotal().toFixed(2));
+                        const grand = this.calculateGrandTotal();
+                        this.amount_paid = grand > 0 ? parseFloat(grand.toFixed(2)) : '';
                     }
                 },
                 setExactCash() {
                     this.userManuallySetPayment = false;
-                    this.amount_paid = parseFloat(this.calculateGrandTotal().toFixed(2));
+                    const grand = this.calculateGrandTotal();
+                    this.amount_paid = grand > 0 ? parseFloat(grand.toFixed(2)) : '';
                 },
                 async submitQuickProduct() {
                     this.quickModalError = '';
@@ -451,7 +453,7 @@
                             // Select this product in the current or first available line item
                             let targetItem = this.items.find(i => !i.product_id);
                             if (!targetItem) {
-                                targetItem = { product_id: '', quantity: 1, unit_price: 0, cost_price: 0, line_discount: 0, available_stock: null };
+                                targetItem = { product_id: '', quantity: 1, unit_price: '', cost_price: 0, line_discount: '', available_stock: null };
                                 this.items.push(targetItem);
                             }
                             targetItem.product_id = newProd.id;

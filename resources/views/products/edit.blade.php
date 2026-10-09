@@ -56,17 +56,17 @@
 
                     <div>
                         <label for="minimum_stock_level" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Safety / Reorder Alert Level *</label>
-                        <input type="number" id="minimum_stock_level" name="minimum_stock_level" value="{{ old('minimum_stock_level', $product->minimum_stock_level) }}" required min="0" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input type="number" id="minimum_stock_level" name="minimum_stock_level" value="{{ old('minimum_stock_level', $product->minimum_stock_level) }}" required min="0" placeholder="5" onfocus="this.select()" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
 
                     <div>
                         <label for="cost_price" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Cost Price ($) *</label>
-                        <input type="number" step="0.01" id="cost_price" name="cost_price" value="{{ old('cost_price', $product->cost_price) }}" required min="0" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input type="number" step="0.01" id="cost_price" name="cost_price" value="{{ old('cost_price', $product->cost_price) }}" required min="0" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
 
                     <div>
                         <label for="selling_price" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Selling Retail Price ($) *</label>
-                        <input type="number" step="0.01" id="selling_price" name="selling_price" value="{{ old('selling_price', $product->selling_price) }}" required min="0" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input type="number" step="0.01" id="selling_price" name="selling_price" value="{{ old('selling_price', $product->selling_price) }}" required min="0" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
 
                     <div class="sm:col-span-2">

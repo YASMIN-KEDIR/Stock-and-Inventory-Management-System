@@ -62,17 +62,17 @@
 
                             <div class="w-full sm:w-28">
                                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Qty</label>
-                                <input type="number" :name="`items[${index}][quantity]`" x-model.number="item.quantity" min="1" required class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm text-center font-bold focus:ring-2 focus:ring-indigo-500">
+                                <input type="number" :name="`items[${index}][quantity]`" x-model.number="item.quantity" @focus="$event.target.select()" min="1" placeholder="1" required class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm text-center font-bold focus:ring-2 focus:ring-indigo-500">
                             </div>
 
                             <div class="w-full sm:w-36">
                                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Unit Cost ($)</label>
-                                <input type="number" step="0.01" :name="`items[${index}][unit_cost]`" x-model.number="item.unit_cost" min="0" required class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-indigo-500">
+                                <input type="number" step="0.01" :name="`items[${index}][unit_cost]`" x-model.number="item.unit_cost" @focus="$event.target.select()" min="0" placeholder="0.00" required class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-indigo-500">
                             </div>
 
                             <div class="w-full sm:w-32 text-right">
                                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Subtotal</label>
-                                <span class="text-sm font-bold text-slate-900 block py-2" x-text="`$${(item.quantity * item.unit_cost).toFixed(2)}`"></span>
+                                <span class="text-sm font-bold text-slate-900 block py-2" x-text="`$${((parseFloat(item.quantity) || 0) * (parseFloat(item.unit_cost) || 0)).toFixed(2)}`"></span>
                             </div>
 
                             <div class="pt-4 sm:pt-0">
@@ -95,17 +95,17 @@
                         <div class="grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 mb-1">Tax / VAT ($)</label>
-                                <input type="number" step="0.01" name="tax_amount" x-model.number="tax_amount" min="0" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm">
+                                <input type="number" step="0.01" name="tax_amount" x-model.number="tax_amount" @focus="$event.target.select()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm">
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-600 mb-1">Shipping Cost ($)</label>
-                                <input type="number" step="0.01" name="shipping_cost" x-model.number="shipping_cost" min="0" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm">
+                                <input type="number" step="0.01" name="shipping_cost" x-model.number="shipping_cost" @focus="$event.target.select()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm">
                             </div>
                         </div>
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Supplier Discount ($)</label>
-                            <input type="number" step="0.01" name="discount_amount" x-model.number="discount_amount" min="0" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm">
+                            <input type="number" step="0.01" name="discount_amount" x-model.number="discount_amount" @focus="$event.target.select()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm">
                         </div>
 
                         <div class="pt-4 border-t border-slate-100">
@@ -113,7 +113,7 @@
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
                                     <label class="block text-xs text-slate-600 mb-1">Amount Paid ($)</label>
-                                    <input type="number" step="0.01" name="amount_paid" x-model.number="amount_paid" min="0" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm font-bold text-emerald-600">
+                                    <input type="number" step="0.01" name="amount_paid" x-model.number="amount_paid" @focus="$event.target.select()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm font-bold text-emerald-600">
                                 </div>
                                 <div>
                                     <label class="block text-xs text-slate-600 mb-1">Method</label>
@@ -136,11 +136,11 @@
                             </div>
                             <div class="flex justify-between text-sm text-slate-400">
                                 <span>Tax & Freight:</span>
-                                <span class="font-mono font-medium text-white" x-text="`+$${(tax_amount + shipping_cost).toFixed(2)}`"></span>
+                                <span class="font-mono font-medium text-white" x-text="`+$${((parseFloat(tax_amount) || 0) + (parseFloat(shipping_cost) || 0)).toFixed(2)}`"></span>
                             </div>
                             <div class="flex justify-between text-sm text-slate-400">
                                 <span>Discount:</span>
-                                <span class="font-mono font-medium text-amber-400" x-text="`-$${discount_amount.toFixed(2)}`"></span>
+                                <span class="font-mono font-medium text-amber-400" x-text="`-$${(parseFloat(discount_amount) || 0).toFixed(2)}`"></span>
                             </div>
                             <div class="pt-3 border-t border-slate-800 flex justify-between text-lg font-bold">
                                 <span>Grand Total:</span>
@@ -148,12 +148,12 @@
                             </div>
                             <div class="flex justify-between text-sm text-rose-400 pt-1">
                                 <span>Remaining Balance (Debt):</span>
-                                <span class="font-mono font-bold" x-text="`$${Math.max(0, calculateGrandTotal() - amount_paid).toFixed(2)}`"></span>
+                                <span class="font-mono font-bold" x-text="`$${Math.max(0, calculateGrandTotal() - (parseFloat(amount_paid) || 0)).toFixed(2)}`"></span>
                             </div>
                         </div>
 
                         <div class="pt-6">
-                            <button type="submit" class="w-full py-3.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 transition-all">
+                            <button type="submit" class="w-full py-3.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 transition-all cursor-pointer">
                                 Confirm & Update Inventory Stock
                             </button>
                         </div>
@@ -171,16 +171,16 @@
                     {
                         product_id: '{{ $selectedProductId ?? "" }}',
                         quantity: 1,
-                        unit_cost: {{ $selectedProductId ? ($products->firstWhere('id', $selectedProductId)->cost_price ?? 0) : 0 }}
+                        unit_cost: '{{ $selectedProductId ? ($products->firstWhere("id", $selectedProductId)->cost_price ?? "") : "" }}'
                     }
                 ],
-                tax_amount: 0,
-                shipping_cost: 0,
-                discount_amount: 0,
-                amount_paid: 0,
+                tax_amount: '',
+                shipping_cost: '',
+                discount_amount: '',
+                amount_paid: '',
 
                 addItem() {
-                    this.items.push({ product_id: '', quantity: 1, unit_cost: 0 });
+                    this.items.push({ product_id: '', quantity: 1, unit_cost: '' });
                     this.$nextTick(() => lucide.createIcons());
                 },
                 removeItem(index) {
@@ -191,14 +191,18 @@
                 onProductSelect(item) {
                     const prod = this.catalog.find(p => p.id == item.product_id);
                     if (prod) {
-                        item.unit_cost = parseFloat(prod.cost_price);
+                        item.unit_cost = prod.cost_price !== null && prod.cost_price !== undefined ? parseFloat(prod.cost_price) : '';
                     }
                 },
                 calculateSubtotal() {
-                    return this.items.reduce((sum, item) => sum + ((item.quantity || 0) * (item.unit_cost || 0)), 0);
+                    return this.items.reduce((sum, item) => sum + ((parseFloat(item.quantity) || 0) * (parseFloat(item.unit_cost) || 0)), 0);
                 },
                 calculateGrandTotal() {
-                    return Math.max(0, this.calculateSubtotal() + (this.tax_amount || 0) + (this.shipping_cost || 0) - (this.discount_amount || 0));
+                    const sub = this.calculateSubtotal();
+                    const tax = parseFloat(this.tax_amount) || 0;
+                    const ship = parseFloat(this.shipping_cost) || 0;
+                    const disc = parseFloat(this.discount_amount) || 0;
+                    return Math.max(0, sub + tax + ship - disc);
                 }
             }
         }

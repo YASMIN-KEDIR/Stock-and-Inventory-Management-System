@@ -36,7 +36,7 @@
 
                     <div>
                         <label for="amount" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Payment Amount ($) *</label>
-                        <input type="number" step="0.01" id="amount" name="amount" value="{{ old('amount') }}" required min="0.01" :max="currentBalance || 999999" placeholder="0.00" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm font-bold text-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input type="number" step="0.01" id="amount" name="amount" value="{{ old('amount') }}" required min="0.01" :max="currentBalance || 999999" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm font-bold text-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                         @error('amount') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
                     </div>
 

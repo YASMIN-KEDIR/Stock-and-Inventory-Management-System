@@ -37,7 +37,7 @@
 
                     <div>
                         <label for="quantity" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Adjustment Quantity *</label>
-                        <input type="number" id="quantity" name="quantity" value="{{ old('quantity', 1) }}" required min="1" :max="adjType === 'SUBTRACTION' ? currentStock : 999999" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input type="number" id="quantity" name="quantity" value="{{ old('quantity', 1) }}" required min="1" placeholder="1" onfocus="this.select()" :max="adjType === 'SUBTRACTION' ? currentStock : 999999" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                         @error('quantity') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>

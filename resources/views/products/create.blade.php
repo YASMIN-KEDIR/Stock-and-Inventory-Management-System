@@ -35,7 +35,7 @@
                             <label for="cost_price" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                                 Buying / Purchase Cost ($)
                             </label>
-                            <input type="number" step="0.01" id="cost_price" name="cost_price" value="{{ old('cost_price', '0.00') }}" min="0" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="number" step="0.01" id="cost_price" name="cost_price" value="{{ old('cost_price') }}" min="0" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             <span class="text-[11px] text-slate-400">What you paid to buy it</span>
                         </div>
 
@@ -43,7 +43,7 @@
                             <label for="selling_price" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                                 Base Selling Price ($)
                             </label>
-                            <input type="number" step="0.01" id="selling_price" name="selling_price" value="{{ old('selling_price', '0.00') }}" min="0" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-bold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="number" step="0.01" id="selling_price" name="selling_price" value="{{ old('selling_price') }}" min="0" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-bold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             <span class="text-[11px] text-slate-400">Can be varied when selling</span>
                         </div>
 
@@ -51,7 +51,7 @@
                             <label for="current_stock" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
                                 Opening Stock Quantity
                             </label>
-                            <input type="number" id="current_stock" name="current_stock" value="{{ old('current_stock', 0) }}" placeholder="0" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="number" id="current_stock" name="current_stock" value="{{ old('current_stock') }}" placeholder="0" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
                             <span class="text-[11px] text-slate-400">Initial quantity in shop</span>
                         </div>
                     </div>
@@ -90,7 +90,7 @@
 
                         <div>
                             <label for="minimum_stock_level" class="block text-xs font-semibold text-slate-600 mb-1.5">Low Stock Alert Level</label>
-                            <input type="number" id="minimum_stock_level" name="minimum_stock_level" value="{{ old('minimum_stock_level', 0) }}" min="0" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <input type="number" id="minimum_stock_level" name="minimum_stock_level" value="{{ old('minimum_stock_level') }}" min="0" placeholder="5" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
                         </div>
 
                         <div>
