@@ -54,11 +54,11 @@
                         <p class="text-xs text-slate-500">Select product, quantity & price</p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button type="button" @click="showQuickAddModal = true" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold border border-indigo-200/60 shadow-xs transition-all">
+                        <button type="button" @click="openQuickAddModal()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold border border-indigo-200/60 shadow-xs transition-all cursor-pointer">
                             <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
                             <span>+ Quick Add Product</span>
                         </button>
-                        <button type="button" @click="addItem()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold border border-emerald-200/60 shadow-xs transition-all">
+                        <button type="button" @click="addItem()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold border border-emerald-200/60 shadow-xs transition-all cursor-pointer">
                             <i data-lucide="plus" class="w-4 h-4"></i>
                             <span>+ Add Line Item</span>
                         </button>
@@ -89,9 +89,9 @@
                             <div class="w-full md:w-36">
                                 <label class="block text-xs font-bold text-slate-600 mb-1 text-center">Quantity</label>
                                 <div class="flex items-center rounded-xl bg-white border border-slate-300 overflow-hidden shadow-xs">
-                                    <button type="button" @click="item.quantity = Math.max(1, (item.quantity || 1) - 1); syncPayment();" class="px-3 py-2 text-slate-600 hover:bg-slate-100 font-black text-base">-</button>
+                                    <button type="button" @click="item.quantity = Math.max(1, (parseInt(item.quantity) || 1) - 1); syncPayment();" class="px-3 py-2 text-slate-600 hover:bg-slate-100 font-black text-base">-</button>
                                     <input type="number" :name="`items[${index}][quantity]`" x-model.number="item.quantity" @input="syncPayment()" min="1" required class="w-full py-2 text-center text-sm font-black text-slate-900 border-x border-slate-200 focus:outline-none">
-                                    <button type="button" @click="item.quantity = (item.quantity || 1) + 1; syncPayment();" class="px-3 py-2 text-slate-600 hover:bg-slate-100 font-black text-base">+</button>
+                                    <button type="button" @click="item.quantity = (parseInt(item.quantity) || 1) + 1; syncPayment();" class="px-3 py-2 text-slate-600 hover:bg-slate-100 font-black text-base">+</button>
                                 </div>
                             </div>
 
@@ -112,7 +112,7 @@
                             <!-- Line Total -->
                             <div class="w-full md:w-32 text-right">
                                 <label class="block text-xs font-bold text-slate-500 mb-1">Subtotal</label>
-                                <span class="text-base font-black text-slate-900 block py-1.5" x-text="`$${Math.max(0, ((item.quantity || 0) * (item.unit_price || 0)) - (item.line_discount || 0)).toFixed(2)}`"></span>
+                                <span class="text-base font-black text-slate-900 block py-1.5" x-text="`$${Math.max(0, (((parseFloat(item.quantity) || 0) * (parseFloat(item.unit_price) || 0)) - (parseFloat(item.line_discount) || 0))).toFixed(2)}`"></span>
                             </div>
 
                             <!-- Delete Row Button -->
@@ -144,18 +144,18 @@
                                 <button type="button" @click="setExactCash()" class="px-3 py-1.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-xs font-bold border border-emerald-300">
                                     ⚡ Exact Total ($<span x-text="calculateGrandTotal().toFixed(2)"></span>)
                                 </button>
-                                <button type="button" @click="amount_paid = 10" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300">$10</button>
-                                <button type="button" @click="amount_paid = 20" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300">$20</button>
-                                <button type="button" @click="amount_paid = 50" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300">$50</button>
-                                <button type="button" @click="amount_paid = 100" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300">$100</button>
-                                <button type="button" @click="amount_paid = 500" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300">$500</button>
+                                <button type="button" @click="amount_paid = 10; userManuallySetPayment = true;" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300">$10</button>
+                                <button type="button" @click="amount_paid = 20; userManuallySetPayment = true;" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300">$20</button>
+                                <button type="button" @click="amount_paid = 50; userManuallySetPayment = true;" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300">$50</button>
+                                <button type="button" @click="amount_paid = 100; userManuallySetPayment = true;" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300">$100</button>
+                                <button type="button" @click="amount_paid = 500; userManuallySetPayment = true;" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-300">$500</button>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                             <div>
                                 <label class="block text-xs font-bold text-slate-700 mb-1">Amount Paid by Customer ($)</label>
-                                <input type="number" step="0.01" name="amount_paid" x-model.number="amount_paid" min="0" class="w-full px-4 py-3 rounded-2xl bg-emerald-50/50 border-2 border-emerald-500 text-emerald-900 text-lg font-black focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                <input type="number" step="0.01" name="amount_paid" x-model.number="amount_paid" @input="userManuallySetPayment = true" min="0" class="w-full px-4 py-3 rounded-2xl bg-emerald-50/50 border-2 border-emerald-500 text-emerald-900 text-lg font-black focus:outline-none focus:ring-2 focus:ring-emerald-600">
                             </div>
 
                             <div>
@@ -227,7 +227,7 @@
                         </div>
 
                         <div class="pt-6">
-                            <button type="submit" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:brightness-110 text-white font-black text-base shadow-xl shadow-emerald-600/30 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2">
+                            <button type="submit" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-emerald-500 via-emerald-600 to-teal-600 hover:brightness-110 text-white font-black text-base shadow-xl shadow-emerald-600/30 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer">
                                 <i data-lucide="check-circle" class="w-5 h-5"></i>
                                 <span>Complete Sale & Print Receipt</span>
                             </button>
@@ -252,27 +252,34 @@
                     </button>
                 </div>
 
+                <!-- Error Alert Box -->
+                <div x-show="quickModalError" x-cloak class="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs font-semibold text-rose-700">
+                    <p x-text="quickModalError"></p>
+                </div>
+
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Product Name *</label>
-                        <input type="text" x-model="newProduct.name" placeholder="e.g. Wireless Mouse, Red Shirt" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">
+                            Product Name <span class="text-rose-500">*</span>
+                        </label>
+                        <input type="text" x-ref="quickNameInput" x-model="newProduct.name" @keydown.enter.prevent="submitQuickProduct()" placeholder="e.g. Wireless Mouse, Red Shirt, Coffee" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Selling Price ($)</label>
-                            <input type="number" step="0.01" x-model="newProduct.selling_price" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                            <input type="number" step="0.01" x-model="newProduct.selling_price" @keydown.enter.prevent="submitQuickProduct()" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-bold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-700 mb-1">Initial Stock Qty</label>
-                            <input type="number" x-model="newProduct.current_stock" placeholder="0" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                            <input type="number" x-model="newProduct.current_stock" @keydown.enter.prevent="submitQuickProduct()" placeholder="0" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
                         </div>
                     </div>
                 </div>
 
                 <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
-                    <button type="button" @click="showQuickAddModal = false" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 text-xs font-semibold">Cancel</button>
-                    <button type="button" @click="submitQuickProduct()" :disabled="savingProduct || !newProduct.name" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-xs font-bold shadow-md shadow-indigo-600/20 flex items-center gap-1.5">
+                    <button type="button" @click="showQuickAddModal = false" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 text-xs font-semibold cursor-pointer">Cancel</button>
+                    <button type="button" @click="submitQuickProduct()" :disabled="savingProduct" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-600/20 flex items-center gap-1.5 cursor-pointer">
                         <span x-show="!savingProduct">Save & Select</span>
                         <span x-show="savingProduct">Saving...</span>
                     </button>
@@ -287,10 +294,11 @@
                 catalog: @json($products),
                 showQuickAddModal: false,
                 savingProduct: false,
+                quickModalError: '',
                 newProduct: {
                     name: '',
                     selling_price: '',
-                    current_stock: 0
+                    current_stock: ''
                 },
                 items: [
                     {
@@ -305,6 +313,17 @@
                 discount_amount: 0,
                 amount_paid: 0,
                 userManuallySetPayment: false,
+
+                openQuickAddModal() {
+                    this.quickModalError = '';
+                    this.newProduct = { name: '', selling_price: '', current_stock: '' };
+                    this.showQuickAddModal = true;
+                    this.$nextTick(() => {
+                        if (this.$refs.quickNameInput) {
+                            this.$refs.quickNameInput.focus();
+                        }
+                    });
+                },
 
                 addItem() {
                     this.items.push({ product_id: '', quantity: 1, unit_price: 0, line_discount: 0, available_stock: null });
@@ -326,12 +345,18 @@
                 },
                 calculateSubtotal() {
                     return this.items.reduce((sum, item) => {
-                        const line = ((item.quantity || 0) * (item.unit_price || 0)) - (item.line_discount || 0);
+                        const q = parseFloat(item.quantity) || 0;
+                        const p = parseFloat(item.unit_price) || 0;
+                        const d = parseFloat(item.line_discount) || 0;
+                        const line = (q * p) - d;
                         return sum + Math.max(0, line);
                     }, 0);
                 },
                 calculateGrandTotal() {
-                    return Math.max(0, this.calculateSubtotal() + (this.tax_amount || 0) - (this.discount_amount || 0));
+                    const sub = this.calculateSubtotal();
+                    const tax = parseFloat(this.tax_amount) || 0;
+                    const disc = parseFloat(this.discount_amount) || 0;
+                    return Math.max(0, sub + tax - disc);
                 },
                 syncPayment() {
                     if (!this.userManuallySetPayment) {
@@ -343,10 +368,20 @@
                     this.amount_paid = parseFloat(this.calculateGrandTotal().toFixed(2));
                 },
                 async submitQuickProduct() {
-                    if (!this.newProduct.name.trim()) return;
+                    this.quickModalError = '';
+                    const name = (this.newProduct.name || '').trim();
+                    if (!name) {
+                        this.quickModalError = 'Please enter a Product Name.';
+                        if (this.$refs.quickNameInput) this.$refs.quickNameInput.focus();
+                        return;
+                    }
+
                     this.savingProduct = true;
 
                     try {
+                        const price = parseFloat(this.newProduct.selling_price) || 0;
+                        const stock = parseInt(this.newProduct.current_stock) || 0;
+
                         const response = await fetch("{{ route('products.store') }}", {
                             method: "POST",
                             headers: {
@@ -355,37 +390,44 @@
                                 "X-CSRF-TOKEN": "{{ csrf_token() }}"
                             },
                             body: JSON.stringify({
-                                name: this.newProduct.name,
-                                selling_price: this.newProduct.selling_price || 0,
-                                current_stock: this.newProduct.current_stock || 0,
+                                name: name,
+                                selling_price: price,
+                                current_stock: stock,
                                 cost_price: 0
                             })
                         });
 
                         const data = await response.json();
-                        if (data.success && data.product) {
-                            this.catalog.push(data.product);
 
-                            // Auto select this new product in the last empty item or new item
+                        if (response.ok && (data.success || data.product)) {
+                            const newProd = data.product || data;
+                            this.catalog.push(newProd);
+
+                            // Select this product in the current or first available line item
                             let targetItem = this.items.find(i => !i.product_id);
                             if (!targetItem) {
                                 targetItem = { product_id: '', quantity: 1, unit_price: 0, line_discount: 0, available_stock: null };
                                 this.items.push(targetItem);
                             }
-                            targetItem.product_id = data.product.id;
-                            targetItem.unit_price = parseFloat(data.product.selling_price || 0);
-                            targetItem.available_stock = parseInt(data.product.current_stock || 0);
+                            targetItem.product_id = newProd.id;
+                            targetItem.unit_price = parseFloat(newProd.selling_price || 0);
+                            targetItem.available_stock = parseInt(newProd.current_stock || 0);
 
                             this.showQuickAddModal = false;
-                            this.newProduct = { name: '', selling_price: '', current_stock: 0 };
+                            this.newProduct = { name: '', selling_price: '', current_stock: '' };
                             this.syncPayment();
                             this.$nextTick(() => lucide.createIcons());
                         } else {
-                            alert(data.message || 'Error creating product.');
+                            if (data.errors) {
+                                const msgs = Object.values(data.errors).flat().join(' ');
+                                this.quickModalError = msgs || data.message || 'Validation failed.';
+                            } else {
+                                this.quickModalError = data.message || 'Could not save product. Please try again.';
+                            }
                         }
                     } catch (e) {
                         console.error(e);
-                        alert('Could not create product. Please try again.');
+                        this.quickModalError = 'Network or server error while creating product.';
                     } finally {
                         this.savingProduct = false;
                     }
