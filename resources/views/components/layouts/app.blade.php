@@ -35,20 +35,20 @@
 
         <!-- Sidebar Navigation -->
         <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
-               class="fixed inset-y-0 left-0 z-50 w-64 bg-slate-900 text-slate-300 flex flex-col transition-transform duration-300 ease-in-out lg:static lg:h-screen lg:shrink-0 shadow-xl">
+               class="app-sidebar fixed inset-y-0 left-0 z-50 w-64 flex flex-col transition-transform duration-300 ease-in-out lg:static lg:h-screen lg:shrink-0 shadow-2xl">
             
             <!-- App Brand / Logo -->
-            <div class="flex items-center justify-between px-6 py-5 border-b border-slate-800 bg-slate-950/40">
+            <div class="app-sidebar-header flex items-center justify-between px-6 py-5">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
                         <i data-lucide="boxes" class="w-5 h-5 text-white"></i>
                     </div>
                     <div>
                         <span class="text-lg font-black tracking-tight text-white block">Merkato<span class="text-emerald-400">.</span></span>
-                        <span class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Stock & Inventory</span>
+                        <span class="text-[10px] font-bold tracking-wider text-slate-300 uppercase">Stock & Inventory</span>
                     </div>
                 </a>
-                <button @click="sidebarOpen = false" class="lg:hidden text-slate-400 hover:text-white p-1.5 rounded-lg hover:bg-slate-800">
+                <button @click="sidebarOpen = false" class="lg:hidden text-slate-300 hover:text-white p-1.5 rounded-lg hover:bg-slate-800">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
@@ -58,115 +58,113 @@
                 
                 <!-- Main Operations -->
                 <div>
-                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Main Menu</span>
+                    <span class="app-sidebar-section-title px-3">Main Menu</span>
                     <div class="mt-2 space-y-1">
                         <a href="{{ route('dashboard') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold transition-all {{ request()->routeIs('dashboard') ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                           class="app-nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                             <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-                            <span class="text-sm font-semibold">Dashboard</span>
+                            <span>Dashboard</span>
                         </a>
                         <a href="{{ route('sales.create') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold transition-all {{ request()->routeIs('sales.create') ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/20' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                           class="app-nav-link {{ request()->routeIs('sales.create') ? 'active' : '' }}">
                             <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-                            <span class="text-sm font-semibold">Point of Sale (POS)</span>
+                            <span>Point of Sale (POS)</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- Sales & Finance -->
                 <div>
-                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Sales & Debt</span>
+                    <span class="app-sidebar-section-title px-3">Sales & Debt</span>
                     <div class="mt-2 space-y-1">
                         <a href="{{ route('sales.index') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all {{ request()->routeIs('sales.*') && !request()->routeIs('sales.create') ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                           class="app-nav-link {{ request()->routeIs('sales.*') && !request()->routeIs('sales.create') ? 'active' : '' }}">
                             <i data-lucide="receipt" class="w-4 h-4"></i>
-                            <span class="text-sm">Sales Invoices</span>
+                            <span>Sales Invoices</span>
                         </a>
                         <a href="{{ route('payments.index') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all {{ request()->routeIs('payments.*') ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                           class="app-nav-link {{ request()->routeIs('payments.*') ? 'active' : '' }}">
                             <i data-lucide="wallet" class="w-4 h-4"></i>
-                            <span class="text-sm">Payments & Credit</span>
+                            <span>Payments & Credit</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- Inventory Management -->
                 <div>
-                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Inventory</span>
+                    <span class="app-sidebar-section-title px-3">Inventory</span>
                     <div class="mt-2 space-y-1">
                         <a href="{{ route('products.index') }}" 
-                           class="flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all {{ request()->routeIs('products.*') ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
-                            <div class="flex items-center gap-3">
-                                <i data-lucide="package" class="w-4 h-4"></i>
-                                <span class="text-sm">Products</span>
-                            </div>
+                           class="app-nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}">
+                            <i data-lucide="package" class="w-4 h-4"></i>
+                            <span>Products</span>
                         </a>
                         <a href="{{ route('purchases.index') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all {{ request()->routeIs('purchases.*') ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                           class="app-nav-link {{ request()->routeIs('purchases.*') ? 'active' : '' }}">
                             <i data-lucide="truck" class="w-4 h-4"></i>
-                            <span class="text-sm">Stock In (Purchases)</span>
+                            <span>Stock In (Purchases)</span>
                         </a>
                         <a href="{{ route('stock-transactions.index') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all {{ request()->routeIs('stock-transactions.*') ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                           class="app-nav-link {{ request()->routeIs('stock-transactions.*') ? 'active' : '' }}">
                             <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
-                            <span class="text-sm">Stock Movements</span>
+                            <span>Stock Movements</span>
                         </a>
                         <a href="{{ route('categories.index') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all {{ request()->routeIs('categories.*') ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                           class="app-nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
                             <i data-lucide="layers" class="w-4 h-4"></i>
-                            <span class="text-sm">Categories</span>
+                            <span>Categories</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- Contacts -->
                 <div>
-                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">People</span>
+                    <span class="app-sidebar-section-title px-3">People</span>
                     <div class="mt-2 space-y-1">
                         <a href="{{ route('customers.index') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all {{ request()->routeIs('customers.*') ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                           class="app-nav-link {{ request()->routeIs('customers.*') ? 'active' : '' }}">
                             <i data-lucide="users" class="w-4 h-4"></i>
-                            <span class="text-sm">Customers</span>
+                            <span>Customers</span>
                         </a>
                         <a href="{{ route('suppliers.index') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all {{ request()->routeIs('suppliers.*') ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                           class="app-nav-link {{ request()->routeIs('suppliers.*') ? 'active' : '' }}">
                             <i data-lucide="building" class="w-4 h-4"></i>
-                            <span class="text-sm">Suppliers</span>
+                            <span>Suppliers</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- Reports & System -->
                 <div>
-                    <span class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400">Analytics</span>
+                    <span class="app-sidebar-section-title px-3">Analytics</span>
                     <div class="mt-2 space-y-1">
                         <a href="{{ route('reports.index') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all {{ request()->routeIs('reports.*') ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                           class="app-nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
                             <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
-                            <span class="text-sm">Financial Reports</span>
+                            <span>Financial Reports</span>
                         </a>
                         <a href="{{ route('audit-logs.index') }}" 
-                           class="flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all {{ request()->routeIs('audit-logs.*') ? 'bg-emerald-500 text-white shadow-md' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                           class="app-nav-link {{ request()->routeIs('audit-logs.*') ? 'active' : '' }}">
                             <i data-lucide="shield-check" class="w-4 h-4"></i>
-                            <span class="text-sm">Audit Trail</span>
+                            <span>Audit Trail</span>
                         </a>
                     </div>
                 </div>
             </nav>
 
             <!-- User Footer Profile Card -->
-            <div class="p-4 border-t border-slate-800 bg-slate-950/50">
-                <div class="flex items-center gap-3 p-2 rounded-xl bg-slate-900 border border-slate-800">
+            <div class="app-sidebar-footer p-4">
+                <div class="flex items-center gap-3 p-2 rounded-xl bg-slate-900/90 border border-slate-800">
                     <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold text-xs">
                         {{ substr(auth()->user()->name ?? 'A', 0, 2) }}
                     </div>
                     <div class="flex-1 min-w-0">
                         <p class="text-xs font-bold text-white truncate">{{ auth()->user()->name ?? 'Admin User' }}</p>
-                        <p class="text-[10px] text-slate-400 truncate">{{ auth()->user()->role ?? 'CASHIER' }}</p>
+                        <p class="text-[10px] text-slate-300 truncate font-semibold">{{ auth()->user()->role ?? 'CASHIER' }}</p>
                     </div>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
-                        <button type="submit" title="Sign Out" class="text-slate-400 hover:text-rose-400 p-1 rounded-lg hover:bg-slate-800 transition-colors">
+                        <button type="submit" title="Sign Out" class="text-slate-300 hover:text-rose-400 p-1.5 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer">
                             <i data-lucide="log-out" class="w-4 h-4"></i>
                         </button>
                     </form>

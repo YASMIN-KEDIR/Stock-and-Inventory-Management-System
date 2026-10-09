@@ -145,3 +145,66 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
     border: 1.5px solid #fca5a5;
     font-weight: 800;
 }
+
+/* Sidebar Navigation - High-Contrast Dark Theme */
+.app-sidebar {
+    background-color: #0f172a !important; /* Deep solid Slate-900 */
+    color: #f8fafc !important;
+    border-right: 1px solid #1e293b !important;
+}
+
+.app-sidebar-header {
+    background-color: #020617 !important; /* Slate-950 */
+    border-bottom: 1px solid #1e293b !important;
+}
+
+.app-sidebar-section-title {
+    color: #94a3b8 !important; /* Crisp Slate-400 on dark */
+    font-weight: 800 !important;
+    font-size: 11px !important;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.app-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    transition: all 0.15s ease-in-out;
+    color: #e2e8f0 !important; /* Bright crisp white/slate text */
+    text-decoration: none;
+}
+
+.app-nav-link i, .app-nav-link svg {
+    color: #94a3b8 !important;
+    flex-shrink: 0;
+}
+
+.app-nav-link:hover {
+    background-color: #1e293b !important;
+    color: #ffffff !important;
+}
+
+.app-nav-link:hover i, .app-nav-link:hover svg {
+    color: #34d399 !important;
+}
+
+.app-nav-link.active {
+    background-color: #059669 !important; /* Emerald-600 */
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    box-shadow: 0 4px 12px rgba(5, 150, 105, 0.35) !important;
+}
+
+.app-nav-link.active i, .app-nav-link.active svg {
+    color: #ffffff !important;
+}
+
+.app-sidebar-footer {
+    background-color: #020617 !important;
+    border-top: 1px solid #1e293b !important;
+}
