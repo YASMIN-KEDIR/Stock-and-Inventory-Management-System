@@ -1,0 +1,85 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    --color-brand-50: #ecfdf5;
+    --color-brand-100: #d1fae5;
+    --color-brand-200: #a7f3d0;
+    --color-brand-500: #10b981;
+    --color-brand-600: #059669;
+    --color-brand-700: #047857;
+    --color-brand-900: #064e3b;
+}
+
+/* Base Body Readability */
+body {
+    color: #0f172a; /* Solid high-contrast slate-900 */
+    background-color: #f1f5f9; /* Soft clean slate-100 */
+    font-weight: 500;
+}
+
+/* High-Contrast Inputs & Forms */
+input, select, textarea {
+    color: #0f172a !important;
+    font-weight: 600;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #64748b !important;
+    font-weight: 500;
+}
+
+/* High-Contrast Cards */
+.glass-card {
+    background-color: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.07), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* High-Contrast Badges */
+.badge-paid {
+    background-color: #dcfce7;
+    color: #14532d;
+    border: 1.5px solid #86efac;
+    font-weight: 800;
+}
+
+.badge-partial {
+    background-color: #fef3c7;
+    color: #78350f;
+    border: 1.5px solid #fcd34d;
+    font-weight: 800;
+}
+
+.badge-unpaid {
+    background-color: #fee2e2;
+    color: #7f1d1d;
+    border: 1.5px solid #fca5a5;
+    font-weight: 800;
+}
+
+.badge-instock {
+    background-color: #dcfce7;
+    color: #14532d;
+    border: 1.5px solid #86efac;
+    font-weight: 800;
+}
+
+.badge-lowstock {
+    background-color: #ffedd5;
+    color: #7c2d12;
+    border: 1.5px solid #fdba74;
+    font-weight: 800;
+}
+
+.badge-outofstock {
+    background-color: #fee2e2;
+    color: #7f1d1d;
+    border: 1.5px solid #fca5a5;
+    font-weight: 800;
+}
