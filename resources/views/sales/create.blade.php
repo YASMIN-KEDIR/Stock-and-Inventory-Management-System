@@ -283,26 +283,26 @@
 
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">
-                            Product Name <span class="text-rose-500">*</span>
+                        <label class="block text-xs font-bold text-slate-900 mb-1">
+                            Product Name <span class="text-rose-600">*</span>
                         </label>
-                        <input type="text" x-ref="quickNameInput" x-model="newProduct.name" @keydown.enter.prevent="submitQuickProduct()" placeholder="e.g. Wireless Mouse, Red Shirt, Coffee" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                        <input type="text" x-ref="quickNameInput" x-model="newProduct.name" @keydown.enter.prevent="submitQuickProduct()" placeholder="e.g. Wireless Mouse, Red Shirt, Coffee" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100">
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Buying Cost ($)</label>
-                            <input type="number" step="0.01" x-model="newProduct.cost_price" @keydown.enter.prevent="submitQuickProduct()" @focus="$event.target.select()" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                            <label class="block text-xs font-bold text-slate-900 mb-1">Buying Cost ($)</label>
+                            <input type="number" step="0.01" x-model="newProduct.cost_price" @keydown.enter.prevent="submitQuickProduct()" @focus="$event.target.select()" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100">
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Selling Price ($)</label>
-                            <input type="number" step="0.01" x-model="newProduct.selling_price" @keydown.enter.prevent="submitQuickProduct()" @focus="$event.target.select()" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-bold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                            <label class="block text-xs font-bold text-slate-900 mb-1">Selling Price ($)</label>
+                            <input type="number" step="0.01" x-model="newProduct.selling_price" @keydown.enter.prevent="submitQuickProduct()" @focus="$event.target.select()" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Opening Stock Qty</label>
-                        <input type="number" x-model="newProduct.current_stock" @keydown.enter.prevent="submitQuickProduct()" @focus="$event.target.select()" placeholder="0" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-300 text-sm font-semibold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                        <label class="block text-xs font-bold text-slate-900 mb-1">Opening Stock Qty</label>
+                        <input type="number" x-model="newProduct.current_stock" @keydown.enter.prevent="submitQuickProduct()" @focus="$event.target.select()" placeholder="0" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100">
                     </div>
                 </div>
 

@@ -22,49 +22,49 @@
                 <!-- Main Essential Information -->
                 <div class="space-y-4">
                     <div>
-                        <label for="name" class="block text-xs font-bold uppercase tracking-wider text-slate-800 mb-2">
-                            Product Name <span class="text-rose-500">*</span>
+                        <label for="name" class="block text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">
+                            Product Name <span class="text-rose-600">*</span>
                         </label>
-                        <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus placeholder="e.g. Wireless Mouse, Red Shirt, Coffee Beans" class="w-full px-4 py-3 rounded-2xl bg-slate-50/70 border border-slate-300 text-base font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        @error('name') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
+                        <input type="text" id="name" name="name" value="{{ old('name') }}" required autofocus placeholder="e.g. Wireless Mouse, Red Shirt, Coffee Beans" class="w-full px-4 py-3 rounded-2xl bg-white border-2 border-slate-300 text-base font-bold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
+                        @error('name') <p class="text-xs font-bold text-rose-600 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <!-- Pricing & Stock Row -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div>
-                            <label for="cost_price" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                            <label for="cost_price" class="block text-xs font-bold uppercase tracking-wider text-slate-900 mb-1.5">
                                 Buying / Purchase Cost ($)
                             </label>
-                            <input type="number" step="0.01" id="cost_price" name="cost_price" value="{{ old('cost_price') }}" min="0" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <span class="text-[11px] text-slate-400">What you paid to buy it</span>
+                            <input type="number" step="0.01" id="cost_price" name="cost_price" value="{{ old('cost_price') }}" min="0" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
+                            <span class="text-xs font-semibold text-slate-600 mt-1 block">What you paid to buy it</span>
                         </div>
 
                         <div>
-                            <label for="selling_price" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                            <label for="selling_price" class="block text-xs font-bold uppercase tracking-wider text-slate-900 mb-1.5">
                                 Base Selling Price ($)
                             </label>
-                            <input type="number" step="0.01" id="selling_price" name="selling_price" value="{{ old('selling_price') }}" min="0" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-bold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <span class="text-[11px] text-slate-400">Can be varied when selling</span>
+                            <input type="number" step="0.01" id="selling_price" name="selling_price" value="{{ old('selling_price') }}" min="0" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
+                            <span class="text-xs font-semibold text-slate-600 mt-1 block">Can be varied when selling</span>
                         </div>
 
                         <div>
-                            <label for="current_stock" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                            <label for="current_stock" class="block text-xs font-bold uppercase tracking-wider text-slate-900 mb-1.5">
                                 Opening Stock Quantity
                             </label>
-                            <input type="number" id="current_stock" name="current_stock" value="{{ old('current_stock') }}" placeholder="0" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <span class="text-[11px] text-slate-400">Initial quantity in shop</span>
+                            <input type="number" id="current_stock" name="current_stock" value="{{ old('current_stock') }}" placeholder="0" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
+                            <span class="text-xs font-semibold text-slate-600 mt-1 block">Initial quantity in shop</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Secondary / Optional Section -->
-                <div class="pt-5 border-t border-slate-100">
-                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4">Optional Details (Can be left blank)</h3>
+                <div class="pt-5 border-t border-slate-200">
+                    <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 mb-4">Optional Details (Can be left blank)</h3>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="category_id" class="block text-xs font-semibold text-slate-600 mb-1.5">Category (Optional)</label>
-                            <select id="category_id" name="category_id" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <label for="category_id" class="block text-xs font-bold text-slate-800 mb-1.5">Category (Optional)</label>
+                            <select id="category_id" name="category_id" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-semibold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
                                 <option value="">None / General (No Category)</option>
                                 @foreach($categories as $cat)
                                     <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
@@ -73,29 +73,29 @@
                         </div>
 
                         <div>
-                            <label for="sku" class="block text-xs font-semibold text-slate-600 mb-1.5">SKU / Code (Optional)</label>
-                            <input type="text" id="sku" name="sku" value="{{ old('sku') }}" placeholder="Leave blank to auto-generate" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-mono placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            @error('sku') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
+                            <label for="sku" class="block text-xs font-bold text-slate-800 mb-1.5">SKU / Code (Optional)</label>
+                            <input type="text" id="sku" name="sku" value="{{ old('sku') }}" placeholder="Leave blank to auto-generate" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-mono font-bold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
+                            @error('sku') <p class="text-xs font-bold text-rose-600 mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
-                            <label for="unit" class="block text-xs font-semibold text-slate-600 mb-1.5">Unit of Measure</label>
-                            <input type="text" id="unit" name="unit" value="{{ old('unit', 'Pcs') }}" placeholder="Pcs, Kg, Box, Bottle" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <label for="unit" class="block text-xs font-bold text-slate-800 mb-1.5">Unit of Measure</label>
+                            <input type="text" id="unit" name="unit" value="{{ old('unit', 'Pcs') }}" placeholder="Pcs, Kg, Box, Bottle" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
                         </div>
 
                         <div>
-                            <label for="barcode" class="block text-xs font-semibold text-slate-600 mb-1.5">Barcode / Scanner Code</label>
-                            <input type="text" id="barcode" name="barcode" value="{{ old('barcode') }}" placeholder="e.g. 097855173560" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-mono placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <label for="barcode" class="block text-xs font-bold text-slate-800 mb-1.5">Barcode / Scanner Code</label>
+                            <input type="text" id="barcode" name="barcode" value="{{ old('barcode') }}" placeholder="e.g. 097855173560" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-mono font-bold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
                         </div>
 
                         <div>
-                            <label for="minimum_stock_level" class="block text-xs font-semibold text-slate-600 mb-1.5">Low Stock Alert Level</label>
-                            <input type="number" id="minimum_stock_level" name="minimum_stock_level" value="{{ old('minimum_stock_level') }}" min="0" placeholder="5" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <label for="minimum_stock_level" class="block text-xs font-bold text-slate-800 mb-1.5">Low Stock Alert Level</label>
+                            <input type="number" id="minimum_stock_level" name="minimum_stock_level" value="{{ old('minimum_stock_level') }}" min="0" placeholder="5" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
                         </div>
 
                         <div>
-                            <label for="supplier_id" class="block text-xs font-semibold text-slate-600 mb-1.5">Supplier (Optional)</label>
-                            <select id="supplier_id" name="supplier_id" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <label for="supplier_id" class="block text-xs font-bold text-slate-800 mb-1.5">Supplier (Optional)</label>
+                            <select id="supplier_id" name="supplier_id" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-semibold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
                                 <option value="">No Default Supplier</option>
                                 @foreach($suppliers as $sup)
                                     <option value="{{ $sup->id }}" {{ old('supplier_id') == $sup->id ? 'selected' : '' }}>{{ $sup->company_name ?? $sup->name }}</option>
@@ -105,13 +105,13 @@
                     </div>
 
                     <div class="mt-4">
-                        <label for="description" class="block text-xs font-semibold text-slate-600 mb-1.5">Notes / Description (Optional)</label>
-                        <textarea id="description" name="description" rows="2" placeholder="Optional notes about the item..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">{{ old('description') }}</textarea>
+                        <label for="description" class="block text-xs font-bold text-slate-800 mb-1.5">Notes / Description (Optional)</label>
+                        <textarea id="description" name="description" rows="2" placeholder="Optional notes about the item..." class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-medium text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">{{ old('description') }}</textarea>
                     </div>
 
                     <div class="mt-4">
-                        <label for="image" class="block text-xs font-semibold text-slate-600 mb-1.5">Product Photo (Optional)</label>
-                        <input type="file" id="image" name="image" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200">
+                        <label for="image" class="block text-xs font-bold text-slate-800 mb-1.5">Product Photo (Optional)</label>
+                        <input type="file" id="image" name="image" accept="image/*" class="w-full text-xs font-semibold text-slate-700 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-100 file:text-slate-800 hover:file:bg-slate-200 cursor-pointer">
                     </div>
                 </div>
 

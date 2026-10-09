@@ -16,28 +16,90 @@
     --color-brand-900: #064e3b;
 }
 
-/* Base Body Readability */
+/* Base Body High-Contrast Readability */
 body {
-    color: #0f172a; /* Solid high-contrast slate-900 */
-    background-color: #f1f5f9; /* Soft clean slate-100 */
+    color: #0f172a; /* Deep bold slate-900 */
+    background-color: #f1f5f9;
     font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* High-Contrast Inputs & Forms */
+/* Ensure all headings and bold text are ultra-clear */
+h1, h2, h3, h4, h5, h6 {
+    color: #0f172a;
+    font-weight: 800;
+}
+
+/* Ensure all labels stand out sharply */
+label {
+    color: #0f172a !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.015em;
+}
+
+/* Inputs, Selects, and Textareas */
 input, select, textarea {
     color: #0f172a !important;
-    font-weight: 600;
+    font-weight: 700 !important;
 }
 
+/* Visible, High-Contrast Placeholders */
 input::placeholder, textarea::placeholder {
-    color: #64748b !important;
-    font-weight: 500;
+    color: #475569 !important; /* Solid, crisp Slate-600 */
+    font-weight: 500 !important;
+    opacity: 1 !important;
+}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: #475569 !important;
+    font-weight: 500 !important;
+    opacity: 1 !important;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+    color: #475569 !important;
+    font-weight: 500 !important;
+    opacity: 1 !important;
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+    color: #475569 !important;
+    font-weight: 500 !important;
+    opacity: 1 !important;
+}
+
+/* Boost light grey texts to high contrast */
+.text-slate-400, .text-gray-400 {
+    color: #334155 !important; /* Upgrade to deep slate-700 */
+}
+
+.text-slate-500, .text-gray-500 {
+    color: #1e293b !important; /* Upgrade to deep slate-800 */
+}
+
+/* On dark background containers (sidebar, dark cards, dark modal) */
+.bg-slate-900, .bg-slate-950, .bg-emerald-950, .bg-amber-950 {
+    color: #ffffff;
+}
+
+.bg-slate-900 label, .bg-slate-950 label, .bg-emerald-950 label, .bg-amber-950 label {
+    color: #ffffff !important;
+}
+
+.bg-slate-900 .text-slate-400, .bg-slate-950 .text-slate-400,
+.bg-emerald-950 .text-slate-400, .bg-amber-950 .text-slate-400 {
+    color: #e2e8f0 !important; /* Slate-200 on dark */
+}
+
+.bg-slate-900 .text-slate-500, .bg-slate-950 .text-slate-500 {
+    color: #cbd5e1 !important; /* Slate-300 on dark */
 }
 
 /* High-Contrast Cards */
 .glass-card {
     background-color: #ffffff;
-    border: 1.5px solid #e2e8f0;
+    border: 1.5px solid #cbd5e1;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.07), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
 }
 
