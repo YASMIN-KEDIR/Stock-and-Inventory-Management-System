@@ -32,21 +32,27 @@
                     <!-- Pricing & Stock Row -->
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div>
-                            <label for="selling_price" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Selling Price ($)</label>
+                            <label for="cost_price" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                Buying / Purchase Cost ($)
+                            </label>
+                            <input type="number" step="0.01" id="cost_price" name="cost_price" value="{{ old('cost_price', '0.00') }}" min="0" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <span class="text-[11px] text-slate-400">What you paid to buy it</span>
+                        </div>
+
+                        <div>
+                            <label for="selling_price" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                Base Selling Price ($)
+                            </label>
                             <input type="number" step="0.01" id="selling_price" name="selling_price" value="{{ old('selling_price', '0.00') }}" min="0" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-bold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <span class="text-[11px] text-slate-400">Price customers pay</span>
+                            <span class="text-[11px] text-slate-400">Can be varied when selling</span>
                         </div>
 
                         <div>
-                            <label for="cost_price" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Cost Price ($)</label>
-                            <input type="number" step="0.01" id="cost_price" name="cost_price" value="{{ old('cost_price', '0.00') }}" min="0" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <span class="text-[11px] text-slate-400">What you bought it for</span>
-                        </div>
-
-                        <div>
-                            <label for="current_stock" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Current Stock Qty</label>
+                            <label for="current_stock" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                                Opening Stock Quantity
+                            </label>
                             <input type="number" id="current_stock" name="current_stock" value="{{ old('current_stock', 0) }}" placeholder="0" class="w-full px-4 py-2.5 rounded-xl bg-slate-50/70 border border-slate-200 text-sm font-semibold text-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                            <span class="text-[11px] text-slate-400">Quantity in your store</span>
+                            <span class="text-[11px] text-slate-400">Initial quantity in shop</span>
                         </div>
                     </div>
                 </div>

@@ -44,34 +44,45 @@
                     @endif
                 </div>
                 <div class="p-4 rounded-2xl bg-slate-50">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Financial Summary</span>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Financial & Profit Summary</span>
                     <div class="flex justify-between text-xs mt-1">
-                        <span class="text-slate-600">Grand Total:</span>
+                        <span class="text-slate-600">Grand Total (Revenue):</span>
                         <span class="font-bold text-slate-900">${{ number_format($sale->grand_total, 2) }}</span>
                     </div>
                     <div class="flex justify-between text-xs mt-0.5">
-                        <span class="text-slate-600">Total Collected:</span>
-                        <span class="font-bold text-emerald-600">${{ number_format($sale->amount_paid, 2) }}</span>
+                        <span class="text-slate-600">Total Buying Cost:</span>
+                        <span class="font-medium text-slate-500">${{ number_format($sale->total_cost, 2) }}</span>
                     </div>
-                    <div class="flex justify-between text-xs mt-0.5">
-                        <span class="text-slate-600">Balance Due:</span>
-                        <span class="font-bold text-amber-600">${{ number_format($sale->remaining_balance, 2) }}</span>
+                    <div class="flex justify-between text-xs mt-0.5 pt-1 border-t border-slate-200/60">
+                        <span class="text-emerald-700 font-bold">Gross Profit Earned:</span>
+                        <span class="font-black text-emerald-600">+${{ number_format($sale->gross_profit, 2) }}</span>
                     </div>
+                    <div class="flex justify-between text-xs mt-1">
+                        <span class="text-slate-600">Amount Collected:</span>
+                        <span class="font-bold text-slate-800">${{ number_format($sale->amount_paid, 2) }}</span>
+                    </div>
+                    @if($sale->remaining_balance > 0)
+                        <div class="flex justify-between text-xs mt-0.5">
+                            <span class="text-amber-700 font-bold">Balance Due (Credit):</span>
+                            <span class="font-black text-amber-600">${{ number_format($sale->remaining_balance, 2) }}</span>
+                        </div>
+                    @endif
                 </div>
             </div>
 
             <!-- Line Items Table -->
             <div class="mt-8">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Line Items</h3>
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Line Items & Profit Breakdown</h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
                         <thead class="bg-slate-100/70 text-slate-500 text-[11px] uppercase tracking-wider font-semibold">
                             <tr>
                                 <th class="px-4 py-3 rounded-l-xl">Product</th>
                                 <th class="px-4 py-3 text-center">Quantity</th>
-                                <th class="px-4 py-3 text-right">Unit Price</th>
-                                <th class="px-4 py-3 text-right">Discount</th>
-                                <th class="px-4 py-3 text-right rounded-r-xl">Subtotal</th>
+                                <th class="px-4 py-3 text-right">Buying Cost</th>
+                                <th class="px-4 py-3 text-right">Sold Price</th>
+                                <th class="px-4 py-3 text-right">Profit Earned</th>
+                                <th class="px-4 py-3 text-right rounded-r-xl">Line Total</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
@@ -82,9 +93,12 @@
                                         <span class="block font-mono text-[11px] text-slate-400">SKU: {{ $item->product->sku ?? '—' }}</span>
                                     </td>
                                     <td class="px-4 py-3 text-center font-bold text-slate-800">{{ $item->quantity }}</td>
-                                    <td class="px-4 py-3 text-right text-slate-600">${{ number_format($item->unit_price, 2) }}</td>
-                                    <td class="px-4 py-3 text-right text-amber-600 font-medium">${{ number_format($item->line_discount, 2) }}</td>
-                                    <td class="px-4 py-3 text-right font-bold text-slate-900">${{ number_format($item->subtotal, 2) }}</td>
+                                    <td class="px-4 py-3 text-right text-slate-500">${{ number_format($item->cost_price_at_sale, 2) }}</td>
+                                    <td class="px-4 py-3 text-right font-bold text-slate-800">${{ number_format($item->unit_price, 2) }}</td>
+                                    <td class="px-4 py-3 text-right font-black {{ $item->margin >= 0 ? 'text-emerald-600' : 'text-rose-600' }}">
+                                        {{ $item->margin >= 0 ? '+' : '' }}${{ number_format($item->margin, 2) }}
+                                    </td>
+                                    <td class="px-4 py-3 text-right font-black text-slate-900">${{ number_format($item->subtotal, 2) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
