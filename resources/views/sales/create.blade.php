@@ -16,7 +16,7 @@
                         </div>
                         <div>
                             <h2 class="text-base font-bold text-slate-900">New Checkout Sale</h2>
-                            <p class="text-xs text-slate-500">Fast cashier terminal for daily retail sales</p>
+                            <p class="text-xs text-slate-500">Fast cashier terminal for direct sales</p>
                         </div>
                     </div>
 
@@ -28,7 +28,7 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
                     <div>
-                        <label for="customer_id" class="block text-xs font-bold text-slate-700 mb-1.5">Who is buying? (Customer)</label>
+                        <label for="customer_id" class="block text-xs font-bold text-slate-700 mb-1.5">Customer (Optional)</label>
                         <select id="customer_id" name="customer_id" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-medium focus:ring-2 focus:ring-emerald-500">
                             <option value="">👤 Walk-In Customer (Cash on Counter)</option>
                             @foreach($customers as $cust)
@@ -40,99 +40,90 @@
                     </div>
 
                     <div>
-                        <label for="notes" class="block text-xs font-bold text-slate-700 mb-1.5">Optional Sale Note / Memo</label>
-                        <input type="text" id="notes" name="notes" value="{{ old('notes') }}" placeholder="e.g. Paid in cash, Pickup, Token #4" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm placeholder-slate-400 focus:ring-2 focus:ring-emerald-500">
+                        <label for="notes" class="block text-xs font-bold text-slate-700 mb-1.5">Sale Note / Memo (Optional)</label>
+                        <input type="text" id="notes" name="notes" value="{{ old('notes') }}" placeholder="e.g. Paid in cash, Takeaway, Token #4" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm placeholder-slate-400 focus:ring-2 focus:ring-emerald-500">
                     </div>
                 </div>
             </div>
 
             <!-- Main Items Table -->
             <div class="glass-card rounded-3xl p-5 sm:p-6 border border-slate-200/80 shadow-xs bg-white">
-                <div class="flex items-center justify-between mb-4">
+                <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
                     <div>
                         <h2 class="text-base font-bold text-slate-900">Items Being Purchased</h2>
-                        <p class="text-xs text-slate-500">Pick products and set quantity</p>
+                        <p class="text-xs text-slate-500">Select product, quantity & price</p>
                     </div>
-                    <button type="button" @click="addItem()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold border border-emerald-200/60 shadow-xs transition-all">
-                        <i data-lucide="plus" class="w-4 h-4"></i>
-                        <span>+ Add Another Product</span>
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button type="button" @click="showQuickAddModal = true" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold border border-indigo-200/60 shadow-xs transition-all">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                            <span>+ Quick Add Product</span>
+                        </button>
+                        <button type="button" @click="addItem()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold border border-emerald-200/60 shadow-xs transition-all">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            <span>+ Add Line Item</span>
+                        </button>
+                    </div>
                 </div>
 
-                @if(count($products) === 0)
-                    <div class="p-8 text-center rounded-2xl bg-amber-50 border border-amber-200 text-amber-800">
-                        <i data-lucide="package-x" class="w-10 h-10 mx-auto text-amber-500 mb-2"></i>
-                        <p class="font-bold text-base">No Products in Stock Yet</p>
-                        <p class="text-xs text-amber-700 mt-1">Please add products or stock them in first before making sales.</p>
-                        <div class="mt-4">
-                            <a href="{{ route('products.create') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white text-xs font-bold shadow-sm">
-                                <i data-lucide="plus" class="w-4 h-4"></i>
-                                <span>Add First Product</span>
-                            </a>
-                        </div>
-                    </div>
-                @else
-                    <div class="space-y-3">
-                        <template x-for="(item, index) in items" :key="index">
-                            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col md:flex-row items-center gap-4 transition-all">
-                                
-                                <!-- Product Picker -->
-                                <div class="flex-1 w-full">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <label class="block text-xs font-bold text-slate-600">Product</label>
-                                        <span class="text-[11px] font-semibold text-slate-500" x-show="item.available_stock !== null">
-                                            Available in stock: <strong class="text-emerald-700 font-bold" x-text="item.available_stock"></strong>
-                                        </span>
-                                    </div>
-                                    <select :name="`items[${index}][product_id]`" x-model="item.product_id" @change="onProductSelect(item)" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-emerald-500">
-                                        <option value="">-- Choose Product to Sell --</option>
-                                        <template x-for="p in catalog" :key="p.id">
-                                            <option :value="p.id" x-text="`${p.name} — $${parseFloat(p.selling_price).toFixed(2)} (In Stock: ${p.current_stock})`"></option>
-                                        </template>
-                                    </select>
+                <div class="space-y-3">
+                    <template x-for="(item, index) in items" :key="index">
+                        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col md:flex-row items-center gap-4 transition-all">
+                            
+                            <!-- Product Picker -->
+                            <div class="flex-1 w-full">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="block text-xs font-bold text-slate-700">Select Product</label>
+                                    <span class="text-[11px] font-semibold text-slate-500" x-show="item.available_stock !== null">
+                                        Stock: <strong class="text-slate-800 font-bold" x-text="item.available_stock"></strong>
+                                    </span>
                                 </div>
+                                <select :name="`items[${index}][product_id]`" x-model="item.product_id" @change="onProductSelect(item)" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-300 text-sm font-semibold text-slate-900 focus:ring-2 focus:ring-emerald-500">
+                                    <option value="">-- Choose Product to Sell --</option>
+                                    <template x-for="p in catalog" :key="p.id">
+                                        <option :value="p.id" x-text="`${p.name} — $${parseFloat(p.selling_price).toFixed(2)} (Stock: ${p.current_stock})`"></option>
+                                    </template>
+                                </select>
+                            </div>
 
-                                <!-- Quantity with +/- Stepper -->
-                                <div class="w-full md:w-40">
-                                    <label class="block text-xs font-bold text-slate-600 mb-1 text-center">Quantity</label>
-                                    <div class="flex items-center rounded-xl bg-white border border-slate-300 overflow-hidden shadow-xs">
-                                        <button type="button" @click="item.quantity = Math.max(1, item.quantity - 1)" class="px-3 py-2 text-slate-600 hover:bg-slate-100 font-black text-base">-</button>
-                                        <input type="number" :name="`items[${index}][quantity]`" x-model.number="item.quantity" :max="item.available_stock || 9999" min="1" required class="w-full py-2 text-center text-sm font-black text-slate-900 border-x border-slate-200 focus:outline-none">
-                                        <button type="button" @click="item.quantity = Math.min(item.available_stock || 9999, item.quantity + 1)" class="px-3 py-2 text-slate-600 hover:bg-slate-100 font-black text-base">+</button>
-                                    </div>
-                                </div>
-
-                                <!-- Selling Price (Dynamic / Variable Per Sale) -->
-                                <div class="w-full md:w-36">
-                                    <div class="flex justify-between items-center mb-1">
-                                        <label class="block text-xs font-black text-slate-800">Unit Price ($)</label>
-                                        <span class="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-1 rounded">Editable</span>
-                                    </div>
-                                    <input type="number" step="0.01" :name="`items[${index}][unit_price]`" x-model.number="item.unit_price" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-black text-slate-900 focus:ring-2 focus:ring-emerald-500">
-                                </div>
-
-                                <!-- Line Discount -->
-                                <div class="w-full md:w-28">
-                                    <label class="block text-xs font-bold text-slate-600 mb-1">Discount ($)</label>
-                                    <input type="number" step="0.01" :name="`items[${index}][line_discount]`" x-model.number="item.line_discount" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 text-sm text-amber-700 font-semibold focus:ring-2 focus:ring-emerald-500">
-                                </div>
-
-                                <!-- Line Total -->
-                                <div class="w-full md:w-32 text-right">
-                                    <label class="block text-xs font-bold text-slate-500 mb-1">Total</label>
-                                    <span class="text-base font-black text-slate-900 block py-1.5" x-text="`$${Math.max(0, (item.quantity * item.unit_price) - (item.line_discount || 0)).toFixed(2)}`"></span>
-                                </div>
-
-                                <!-- Delete Row Button -->
-                                <div class="pt-2 md:pt-4">
-                                    <button type="button" @click="removeItem(index)" class="p-2 text-slate-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 transition-colors" :disabled="items.length <= 1" title="Remove item">
-                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                    </button>
+                            <!-- Quantity with +/- Stepper -->
+                            <div class="w-full md:w-36">
+                                <label class="block text-xs font-bold text-slate-600 mb-1 text-center">Quantity</label>
+                                <div class="flex items-center rounded-xl bg-white border border-slate-300 overflow-hidden shadow-xs">
+                                    <button type="button" @click="item.quantity = Math.max(1, (item.quantity || 1) - 1); syncPayment();" class="px-3 py-2 text-slate-600 hover:bg-slate-100 font-black text-base">-</button>
+                                    <input type="number" :name="`items[${index}][quantity]`" x-model.number="item.quantity" @input="syncPayment()" min="1" required class="w-full py-2 text-center text-sm font-black text-slate-900 border-x border-slate-200 focus:outline-none">
+                                    <button type="button" @click="item.quantity = (item.quantity || 1) + 1; syncPayment();" class="px-3 py-2 text-slate-600 hover:bg-slate-100 font-black text-base">+</button>
                                 </div>
                             </div>
-                        </template>
-                    </div>
-                @endif
+
+                            <!-- Selling Price (Dynamic / Variable Per Sale) -->
+                            <div class="w-full md:w-36">
+                                <div class="flex justify-between items-center mb-1">
+                                    <label class="block text-xs font-bold text-slate-800">Unit Price ($)</label>
+                                </div>
+                                <input type="number" step="0.01" :name="`items[${index}][unit_price]`" x-model.number="item.unit_price" @input="syncPayment()" min="0" required class="w-full px-3 py-2.5 rounded-xl bg-white border border-slate-300 text-sm font-black text-slate-900 focus:ring-2 focus:ring-emerald-500">
+                            </div>
+
+                            <!-- Line Discount -->
+                            <div class="w-full md:w-28">
+                                <label class="block text-xs font-bold text-slate-600 mb-1">Discount ($)</label>
+                                <input type="number" step="0.01" :name="`items[${index}][line_discount]`" x-model.number="item.line_discount" @input="syncPayment()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-300 text-sm text-amber-700 font-semibold focus:ring-2 focus:ring-emerald-500">
+                            </div>
+
+                            <!-- Line Total -->
+                            <div class="w-full md:w-32 text-right">
+                                <label class="block text-xs font-bold text-slate-500 mb-1">Subtotal</label>
+                                <span class="text-base font-black text-slate-900 block py-1.5" x-text="`$${Math.max(0, ((item.quantity || 0) * (item.unit_price || 0)) - (item.line_discount || 0)).toFixed(2)}`"></span>
+                            </div>
+
+                            <!-- Delete Row Button -->
+                            <div class="pt-2 md:pt-4">
+                                <button type="button" @click="removeItem(index)" class="p-2 text-slate-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 transition-colors" :disabled="items.length <= 1" title="Remove item">
+                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
             </div>
 
             <!-- Bottom Checkout & Cashier Settlement Card -->
@@ -143,12 +134,12 @@
                     <div class="lg:col-span-7 space-y-5">
                         <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
                             <i data-lucide="wallet" class="w-5 h-5 text-emerald-600"></i>
-                            <span>Cashier Money Collection</span>
+                            <span>Payment & Checkout</span>
                         </h3>
 
                         <!-- Quick Cash Tendered Shortcuts -->
                         <div>
-                            <span class="block text-xs font-bold text-slate-600 mb-2">Quick Cash Tender Buttons:</span>
+                            <span class="block text-xs font-bold text-slate-600 mb-2">Quick Cash Shortcuts:</span>
                             <div class="flex flex-wrap gap-2">
                                 <button type="button" @click="setExactCash()" class="px-3 py-1.5 rounded-xl bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-xs font-bold border border-emerald-300">
                                     ⚡ Exact Total ($<span x-text="calculateGrandTotal().toFixed(2)"></span>)
@@ -163,8 +154,8 @@
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                             <div>
-                                <label class="block text-xs font-bold text-slate-700 mb-1">Cash Given by Customer ($) *</label>
-                                <input type="number" step="0.01" name="amount_paid" x-model.number="amount_paid" min="0" required class="w-full px-4 py-3 rounded-2xl bg-emerald-50/50 border-2 border-emerald-500 text-emerald-900 text-lg font-black focus:outline-none focus:ring-2 focus:ring-emerald-600">
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Amount Paid by Customer ($)</label>
+                                <input type="number" step="0.01" name="amount_paid" x-model.number="amount_paid" min="0" class="w-full px-4 py-3 rounded-2xl bg-emerald-50/50 border-2 border-emerald-500 text-emerald-900 text-lg font-black focus:outline-none focus:ring-2 focus:ring-emerald-600">
                             </div>
 
                             <div>
@@ -183,11 +174,11 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-500 mb-1">Extra Discount ($)</label>
-                                    <input type="number" step="0.01" name="discount_amount" x-model.number="discount_amount" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-amber-700">
+                                    <input type="number" step="0.01" name="discount_amount" x-model.number="discount_amount" @input="syncPayment()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-amber-700">
                                 </div>
                                 <div>
                                     <label class="block text-xs font-semibold text-slate-500 mb-1">Tax / VAT ($)</label>
-                                    <input type="number" step="0.01" name="tax_amount" x-model.number="tax_amount" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700">
+                                    <input type="number" step="0.01" name="tax_amount" x-model.number="tax_amount" @input="syncPayment()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700">
                                 </div>
                             </div>
                         </div>
@@ -245,12 +236,62 @@
                 </div>
             </div>
         </form>
+
+        <!-- Quick Add Product Modal -->
+        <div x-show="showQuickAddModal" x-cloak class="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+            <div @click.away="showQuickAddModal = false" class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-100 space-y-5">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                        </div>
+                        <h3 class="text-base font-bold text-slate-900">Quick Add Product</h3>
+                    </div>
+                    <button type="button" @click="showQuickAddModal = false" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Product Name *</label>
+                        <input type="text" x-model="newProduct.name" placeholder="e.g. Wireless Mouse, Red Shirt" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Selling Price ($)</label>
+                            <input type="number" step="0.01" x-model="newProduct.selling_price" placeholder="0.00" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1">Initial Stock Qty</label>
+                            <input type="number" x-model="newProduct.current_stock" placeholder="0" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:bg-white focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
+                    <button type="button" @click="showQuickAddModal = false" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 text-xs font-semibold">Cancel</button>
+                    <button type="button" @click="submitQuickProduct()" :disabled="savingProduct || !newProduct.name" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-xs font-bold shadow-md shadow-indigo-600/20 flex items-center gap-1.5">
+                        <span x-show="!savingProduct">Save & Select</span>
+                        <span x-show="savingProduct">Saving...</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         function cashierPos() {
             return {
                 catalog: @json($products),
+                showQuickAddModal: false,
+                savingProduct: false,
+                newProduct: {
+                    name: '',
+                    selling_price: '',
+                    current_stock: 0
+                },
                 items: [
                     {
                         product_id: '',
@@ -263,6 +304,7 @@
                 tax_amount: 0,
                 discount_amount: 0,
                 amount_paid: 0,
+                userManuallySetPayment: false,
 
                 addItem() {
                     this.items.push({ product_id: '', quantity: 1, unit_price: 0, line_discount: 0, available_stock: null });
@@ -271,14 +313,15 @@
                 removeItem(index) {
                     if (this.items.length > 1) {
                         this.items.splice(index, 1);
+                        this.syncPayment();
                     }
                 },
                 onProductSelect(item) {
                     const prod = this.catalog.find(p => p.id == item.product_id);
                     if (prod) {
-                        item.unit_price = parseFloat(prod.selling_price);
-                        item.available_stock = parseInt(prod.current_stock);
-                        this.setExactCash();
+                        item.unit_price = parseFloat(prod.selling_price || 0);
+                        item.available_stock = parseInt(prod.current_stock || 0);
+                        this.syncPayment();
                     }
                 },
                 calculateSubtotal() {
@@ -290,8 +333,62 @@
                 calculateGrandTotal() {
                     return Math.max(0, this.calculateSubtotal() + (this.tax_amount || 0) - (this.discount_amount || 0));
                 },
+                syncPayment() {
+                    if (!this.userManuallySetPayment) {
+                        this.amount_paid = parseFloat(this.calculateGrandTotal().toFixed(2));
+                    }
+                },
                 setExactCash() {
+                    this.userManuallySetPayment = false;
                     this.amount_paid = parseFloat(this.calculateGrandTotal().toFixed(2));
+                },
+                async submitQuickProduct() {
+                    if (!this.newProduct.name.trim()) return;
+                    this.savingProduct = true;
+
+                    try {
+                        const response = await fetch("{{ route('products.store') }}", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Accept": "application/json",
+                                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({
+                                name: this.newProduct.name,
+                                selling_price: this.newProduct.selling_price || 0,
+                                current_stock: this.newProduct.current_stock || 0,
+                                cost_price: 0
+                            })
+                        });
+
+                        const data = await response.json();
+                        if (data.success && data.product) {
+                            this.catalog.push(data.product);
+
+                            // Auto select this new product in the last empty item or new item
+                            let targetItem = this.items.find(i => !i.product_id);
+                            if (!targetItem) {
+                                targetItem = { product_id: '', quantity: 1, unit_price: 0, line_discount: 0, available_stock: null };
+                                this.items.push(targetItem);
+                            }
+                            targetItem.product_id = data.product.id;
+                            targetItem.unit_price = parseFloat(data.product.selling_price || 0);
+                            targetItem.available_stock = parseInt(data.product.current_stock || 0);
+
+                            this.showQuickAddModal = false;
+                            this.newProduct = { name: '', selling_price: '', current_stock: 0 };
+                            this.syncPayment();
+                            this.$nextTick(() => lucide.createIcons());
+                        } else {
+                            alert(data.message || 'Error creating product.');
+                        }
+                    } catch (e) {
+                        console.error(e);
+                        alert('Could not create product. Please try again.');
+                    } finally {
+                        this.savingProduct = false;
+                    }
                 }
             }
         }

@@ -41,7 +41,7 @@ class SaleController extends Controller
     public function create()
     {
         $customers = Customer::where('is_active', true)->orderBy('name', 'asc')->get();
-        $products = Product::where('is_active', true)->where('current_stock', '>', 0)->orderBy('name', 'asc')->get();
+        $products = Product::where('is_active', true)->orderBy('name', 'asc')->get();
 
         return view('sales.create', compact('customers', 'products'));
     }
@@ -67,21 +67,14 @@ class SaleController extends Controller
         $sale = DB::transaction(function () use ($validated, $request) {
             $productIds = collect($validated['items'])->pluck('product_id')->unique()->toArray();
 
-            // Lock products for update to avoid race conditions
+            // Lock products for update
             $products = Product::whereIn('id', $productIds)->lockForUpdate()->get()->keyBy('id');
 
-            // Strict stock verification
             $subtotal = 0;
             foreach ($validated['items'] as $itemData) {
                 $prod = $products->get($itemData['product_id']);
                 if (!$prod) {
-                    throw ValidationException::withMessages(['items' => 'Invalid product specified.']);
-                }
-
-                if ($prod->current_stock < $itemData['quantity']) {
-                    throw ValidationException::withMessages([
-                        'items' => "Insufficient stock for '{$prod->name}'. Available: {$prod->current_stock}, Requested: {$itemData['quantity']}"
-                    ]);
+                    throw ValidationException::withMessages(['items' => 'Invalid product selected.']);
                 }
 
                 $lineDisc = (float) ($itemData['line_discount'] ?? 0);

@@ -30,8 +30,9 @@
                     </div>
 
                     <div>
-                        <label for="category_id" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Category *</label>
-                        <select id="category_id" name="category_id" required class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <label for="category_id" class="block text-xs font-semibold text-slate-700 mb-2">Category (Optional)</label>
+                        <select id="category_id" name="category_id" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="">None / General (No Category)</option>
                             @foreach($categories as $cat)
                                 <option value="{{ $cat->id }}" {{ old('category_id', $product->category_id) == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
                             @endforeach

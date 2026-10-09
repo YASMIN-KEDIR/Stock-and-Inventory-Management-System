@@ -58,22 +58,36 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'category_id' => ['required', 'exists:categories,id'],
+            'category_id' => ['nullable', 'exists:categories,id'],
             'supplier_id' => ['nullable', 'exists:suppliers,id'],
             'name' => ['required', 'string', 'max:255'],
-            'sku' => ['required', 'string', 'max:100', 'unique:products,sku'],
+            'sku' => ['nullable', 'string', 'max:100', 'unique:products,sku'],
             'barcode' => ['nullable', 'string', 'max:100', 'unique:products,barcode'],
-            'unit' => ['required', 'string', 'max:50'],
-            'cost_price' => ['required', 'numeric', 'min:0'],
-            'selling_price' => ['required', 'numeric', 'min:0'],
-            'current_stock' => ['required', 'integer', 'min:0'],
-            'minimum_stock_level' => ['required', 'integer', 'min:0'],
+            'unit' => ['nullable', 'string', 'max:50'],
+            'cost_price' => ['nullable', 'numeric', 'min:0'],
+            'selling_price' => ['nullable', 'numeric', 'min:0'],
+            'current_stock' => ['nullable', 'integer'],
+            'minimum_stock_level' => ['nullable', 'integer', 'min:0'],
             'description' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'max:2048'],
-            'is_active' => ['boolean'],
+            'is_active' => ['nullable', 'boolean'],
         ]);
 
-        $validated['is_active'] = $request->has('is_active');
+        // Auto-fill friendly defaults if empty
+        if (empty($validated['sku'])) {
+            $validated['sku'] = 'SKU-' . strtoupper(Str::random(6));
+            // Ensure uniqueness
+            while (Product::where('sku', $validated['sku'])->exists()) {
+                $validated['sku'] = 'SKU-' . strtoupper(Str::random(6));
+            }
+        }
+
+        $validated['unit'] = $validated['unit'] ?? 'Pcs';
+        $validated['cost_price'] = $validated['cost_price'] ?? 0.00;
+        $validated['selling_price'] = $validated['selling_price'] ?? 0.00;
+        $validated['current_stock'] = $validated['current_stock'] ?? 0;
+        $validated['minimum_stock_level'] = $validated['minimum_stock_level'] ?? 0;
+        $validated['is_active'] = $request->has('is_active') ? (bool)$request->input('is_active') : true;
 
         if ($request->hasFile('image')) {
             $validated['image_path'] = $request->file('image')->store('products', 'public');
@@ -82,8 +96,8 @@ class ProductController extends Controller
         $product = DB::transaction(function () use ($validated, $request) {
             $product = Product::create($validated);
 
-            // Record initial stock movement if starting stock > 0
-            if ($product->current_stock > 0) {
+            // Record initial stock movement if starting stock != 0
+            if ($product->current_stock != 0) {
                 StockTransaction::create([
                     'product_id' => $product->id,
                     'user_id' => Auth::id(),
@@ -93,7 +107,7 @@ class ProductController extends Controller
                     'balance_after' => $product->current_stock,
                     'reference_type' => 'InitialStockAudit',
                     'reference_id' => $product->id,
-                    'reason' => 'Product initial stock creation.',
+                    'reason' => 'Product initial opening stock.',
                 ]);
             }
 
@@ -109,6 +123,14 @@ class ProductController extends Controller
 
             return $product;
         });
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Product created successfully.',
+                'product' => $product
+            ]);
+        }
 
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
@@ -132,21 +154,25 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
-            'category_id' => ['required', 'exists:categories,id'],
+            'category_id' => ['nullable', 'exists:categories,id'],
             'supplier_id' => ['nullable', 'exists:suppliers,id'],
             'name' => ['required', 'string', 'max:255'],
-            'sku' => ['required', 'string', 'max:100', 'unique:products,sku,'.$product->id],
+            'sku' => ['nullable', 'string', 'max:100', 'unique:products,sku,'.$product->id],
             'barcode' => ['nullable', 'string', 'max:100', 'unique:products,barcode,'.$product->id],
-            'unit' => ['required', 'string', 'max:50'],
-            'cost_price' => ['required', 'numeric', 'min:0'],
-            'selling_price' => ['required', 'numeric', 'min:0'],
-            'minimum_stock_level' => ['required', 'integer', 'min:0'],
+            'unit' => ['nullable', 'string', 'max:50'],
+            'cost_price' => ['nullable', 'numeric', 'min:0'],
+            'selling_price' => ['nullable', 'numeric', 'min:0'],
+            'minimum_stock_level' => ['nullable', 'integer', 'min:0'],
             'description' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'max:2048'],
-            'is_active' => ['boolean'],
+            'is_active' => ['nullable', 'boolean'],
         ]);
 
-        $validated['is_active'] = $request->has('is_active');
+        $validated['unit'] = $validated['unit'] ?? $product->unit ?? 'Pcs';
+        $validated['cost_price'] = $validated['cost_price'] ?? $product->cost_price ?? 0.00;
+        $validated['selling_price'] = $validated['selling_price'] ?? $product->selling_price ?? 0.00;
+        $validated['minimum_stock_level'] = $validated['minimum_stock_level'] ?? $product->minimum_stock_level ?? 0;
+        $validated['is_active'] = $request->has('is_active') ? (bool)$request->input('is_active') : true;
 
         if ($request->hasFile('image')) {
             if ($product->image_path) {
