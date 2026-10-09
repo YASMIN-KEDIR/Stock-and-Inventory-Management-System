@@ -59,15 +59,19 @@
                 <!-- Main Operations -->
                 <div>
                     <span class="app-sidebar-section-title px-3">Main Menu</span>
-                    <div class="mt-2 space-y-1">
+                    <div class="mt-2 space-y-1.5">
                         <a href="{{ route('dashboard') }}" 
                            class="app-nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                            <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                                <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+                            </div>
                             <span>Dashboard</span>
                         </a>
                         <a href="{{ route('sales.create') }}" 
                            class="app-nav-link {{ request()->routeIs('sales.create') ? 'active' : '' }}">
-                            <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                            <div class="w-7 h-7 rounded-lg bg-teal-500/20 text-teal-300 flex items-center justify-center shrink-0">
+                                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                            </div>
                             <span>Point of Sale (POS)</span>
                         </a>
                     </div>
@@ -76,15 +80,19 @@
                 <!-- Sales & Finance -->
                 <div>
                     <span class="app-sidebar-section-title px-3">Sales & Debt</span>
-                    <div class="mt-2 space-y-1">
+                    <div class="mt-2 space-y-1.5">
                         <a href="{{ route('sales.index') }}" 
                            class="app-nav-link {{ request()->routeIs('sales.*') && !request()->routeIs('sales.create') ? 'active' : '' }}">
-                            <i data-lucide="receipt" class="w-4 h-4"></i>
+                            <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                                <i data-lucide="receipt" class="w-4 h-4"></i>
+                            </div>
                             <span>Sales Invoices</span>
                         </a>
                         <a href="{{ route('payments.index') }}" 
                            class="app-nav-link {{ request()->routeIs('payments.*') ? 'active' : '' }}">
-                            <i data-lucide="wallet" class="w-4 h-4"></i>
+                            <div class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+                                <i data-lucide="wallet" class="w-4 h-4"></i>
+                            </div>
                             <span>Payments & Credit</span>
                         </a>
                     </div>
@@ -93,25 +101,33 @@
                 <!-- Inventory Management -->
                 <div>
                     <span class="app-sidebar-section-title px-3">Inventory</span>
-                    <div class="mt-2 space-y-1">
+                    <div class="mt-2 space-y-1.5">
                         <a href="{{ route('products.index') }}" 
                            class="app-nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}">
-                            <i data-lucide="package" class="w-4 h-4"></i>
+                            <div class="w-7 h-7 rounded-lg bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0">
+                                <i data-lucide="package" class="w-4 h-4"></i>
+                            </div>
                             <span>Products</span>
                         </a>
                         <a href="{{ route('purchases.index') }}" 
                            class="app-nav-link {{ request()->routeIs('purchases.*') ? 'active' : '' }}">
-                            <i data-lucide="truck" class="w-4 h-4"></i>
+                            <div class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+                                <i data-lucide="truck" class="w-4 h-4"></i>
+                            </div>
                             <span>Stock In (Purchases)</span>
                         </a>
                         <a href="{{ route('stock-transactions.index') }}" 
                            class="app-nav-link {{ request()->routeIs('stock-transactions.*') ? 'active' : '' }}">
-                            <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+                            <div class="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0">
+                                <i data-lucide="arrow-left-right" class="w-4 h-4"></i>
+                            </div>
                             <span>Stock Movements</span>
                         </a>
                         <a href="{{ route('categories.index') }}" 
                            class="app-nav-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
-                            <i data-lucide="layers" class="w-4 h-4"></i>
+                            <div class="w-7 h-7 rounded-lg bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0">
+                                <i data-lucide="layers" class="w-4 h-4"></i>
+                            </div>
                             <span>Categories</span>
                         </a>
                     </div>
@@ -120,15 +136,19 @@
                 <!-- Contacts -->
                 <div>
                     <span class="app-sidebar-section-title px-3">People</span>
-                    <div class="mt-2 space-y-1">
+                    <div class="mt-2 space-y-1.5">
                         <a href="{{ route('customers.index') }}" 
                            class="app-nav-link {{ request()->routeIs('customers.*') ? 'active' : '' }}">
-                            <i data-lucide="users" class="w-4 h-4"></i>
+                            <div class="w-7 h-7 rounded-lg bg-teal-500/20 text-teal-400 flex items-center justify-center shrink-0">
+                                <i data-lucide="users" class="w-4 h-4"></i>
+                            </div>
                             <span>Customers</span>
                         </a>
                         <a href="{{ route('suppliers.index') }}" 
                            class="app-nav-link {{ request()->routeIs('suppliers.*') ? 'active' : '' }}">
-                            <i data-lucide="building" class="w-4 h-4"></i>
+                            <div class="w-7 h-7 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0">
+                                <i data-lucide="building" class="w-4 h-4"></i>
+                            </div>
                             <span>Suppliers</span>
                         </a>
                     </div>
@@ -137,15 +157,19 @@
                 <!-- Reports & System -->
                 <div>
                     <span class="app-sidebar-section-title px-3">Analytics</span>
-                    <div class="mt-2 space-y-1">
+                    <div class="mt-2 space-y-1.5">
                         <a href="{{ route('reports.index') }}" 
                            class="app-nav-link {{ request()->routeIs('reports.*') ? 'active' : '' }}">
-                            <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+                            <div class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+                                <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+                            </div>
                             <span>Financial Reports</span>
                         </a>
                         <a href="{{ route('audit-logs.index') }}" 
                            class="app-nav-link {{ request()->routeIs('audit-logs.*') ? 'active' : '' }}">
-                            <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            </div>
                             <span>Audit Trail</span>
                         </a>
                     </div>
