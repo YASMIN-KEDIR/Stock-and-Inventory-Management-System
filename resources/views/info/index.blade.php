@@ -427,16 +427,6 @@
                         </div>
                     </div>
 
-                    <!-- Category -->
-                    <div>
-                        <select name="category_id" class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs font-bold text-slate-900 focus:bg-white focus:border-indigo-600 focus:outline-none">
-                            <option value="">All Categories</option>
-                            @foreach($categories as $cat)
-                                <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
                     <!-- Stock Status Filter -->
                     <div>
                         <select name="status" class="w-full px-3 py-2 rounded-xl bg-slate-50 border-2 border-slate-200 text-xs font-bold text-slate-900 focus:bg-white focus:border-indigo-600 focus:outline-none">
@@ -460,7 +450,7 @@
                         <button type="submit" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-xs cursor-pointer">
                             Filter
                         </button>
-                        @if(request()->hasAny(['search', 'category_id', 'status', 'sort']))
+                        @if(request()->hasAny(['search', 'status', 'sort']))
                             <a href="{{ route('info.index', ['tab' => 'valuation']) }}" class="px-2.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold" title="Reset Filters">
                                 ✕
                             </a>
@@ -492,7 +482,7 @@
                         <thead class="bg-slate-100 text-slate-700 uppercase tracking-wider font-extrabold border-b border-slate-200">
                             <tr>
                                 <th class="px-4 py-3.5">Product Name</th>
-                                <th class="px-4 py-3.5">Category</th>
+                                <th class="px-4 py-3.5">Supplier</th>
                                 <th class="px-4 py-3.5 text-center">In Stock</th>
                                 <th class="px-4 py-3.5 text-right bg-indigo-50/50 text-indigo-900">Unit Cost</th>
                                 <th class="px-4 py-3.5 text-right bg-indigo-100/40 text-indigo-950 font-black">Total Cost Value</th>
@@ -515,10 +505,9 @@
                                         <a href="{{ route('products.show', $product) }}" class="font-extrabold text-slate-900 hover:text-indigo-600 block">
                                             {{ $product->name }}
                                         </a>
-                                        <span class="font-mono text-[11px] text-slate-600 font-bold">Code: {{ $product->sku }}</span>
                                     </td>
                                     <td class="px-4 py-3 font-bold text-slate-700">
-                                        {{ $product->category->name ?? 'Uncategorized' }}
+                                        {{ $product->supplier->company_name ?? $product->supplier->name ?? '—' }}
                                     </td>
                                     <td class="px-4 py-3 text-center font-black text-sm {{ $product->current_stock <= 0 ? 'text-rose-600' : ($product->current_stock <= $product->minimum_stock_level ? 'text-amber-600' : 'text-slate-900') }}">
                                         {{ number_format($product->current_stock) }} <span class="text-[10px] text-slate-500 font-bold">{{ $product->unit }}</span>

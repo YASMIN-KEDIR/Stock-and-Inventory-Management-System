@@ -18,26 +18,14 @@
                         @error('name') <p class="text-xs font-bold text-rose-600 mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div>
-                        <label for="sku" class="block text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">SKU *</label>
-                        <input type="text" id="sku" name="sku" value="{{ old('sku', $product->sku) }}" required class="w-full px-4 py-3 rounded-xl bg-white border-2 border-slate-300 text-sm font-mono font-bold text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100">
-                        @error('sku') <p class="text-xs font-bold text-rose-600 mt-1">{{ $message }}</p> @enderror
-                    </div>
+                    <input type="hidden" name="sku" value="{{ old('sku', $product->sku) }}">
 
                     <div>
                         <label for="barcode" class="block text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">Barcode / UPC</label>
                         <input type="text" id="barcode" name="barcode" value="{{ old('barcode', $product->barcode) }}" class="w-full px-4 py-3 rounded-xl bg-white border-2 border-slate-300 text-sm font-mono font-bold text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100">
                     </div>
 
-                    <div>
-                        <label for="category_id" class="block text-xs font-bold text-slate-900 mb-2">Category (Optional)</label>
-                        <select id="category_id" name="category_id" class="w-full px-4 py-3 rounded-xl bg-white border-2 border-slate-300 text-sm font-semibold text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100">
-                            <option value="">None / General (No Category)</option>
-                            @foreach($categories as $cat)
-                                <option value="{{ $cat->id }}" {{ old('category_id', $product->category_id) == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+
 
                     <div>
                         <label for="supplier_id" class="block text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">Preferred Supplier</label>

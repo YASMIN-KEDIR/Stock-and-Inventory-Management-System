@@ -17,17 +17,15 @@ class AddHubController extends Controller
             $tab = 'product';
         }
 
-        $categories = Category::where('is_active', true)->orderBy('name', 'asc')->get();
         $suppliers = Supplier::where('is_active', true)->orderBy('name', 'asc')->get();
 
         // Recent items for quick preview & confirmation
-        $recentProducts = Product::with('category')->latest()->take(5)->get();
+        $recentProducts = Product::with('supplier')->latest()->take(5)->get();
         $recentSuppliers = Supplier::latest()->take(5)->get();
         $recentCustomers = Customer::latest()->take(5)->get();
 
         return view('add.index', compact(
             'tab',
-            'categories',
             'suppliers',
             'recentProducts',
             'recentSuppliers',

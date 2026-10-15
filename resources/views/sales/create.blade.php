@@ -86,7 +86,7 @@
                                            @input="item.isDropdownOpen = true; if(item.product_id && item.searchQuery !== getProductName(item.product_id)) { item.product_id = ''; }"
                                            @keydown.escape="item.isDropdownOpen = false"
                                            @keydown.enter.prevent="selectFirstMatch(item)"
-                                           placeholder="Type product name, code, or click here to choose..."
+                                           placeholder="Type product name, barcode, or click here to choose..."
                                            autocomplete="off"
                                            class="w-full pl-10 pr-20 py-3 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100 transition-all">
                                     
@@ -133,10 +133,8 @@
                                                     <span x-text="p.name"></span>
                                                     <span x-show="item.product_id == p.id" class="text-[11px] text-indigo-700 font-black bg-indigo-100 px-2 py-0.5 rounded-md">✓ Selected</span>
                                                 </div>
-                                                <div class="text-xs text-slate-500 font-mono mt-0.5" x-show="p.sku || p.barcode">
-                                                    <span x-show="p.sku" x-text="`Code: ${p.sku}`"></span>
-                                                    <span x-show="p.sku && p.barcode"> &bull; </span>
-                                                    <span x-show="p.barcode" x-text="`Barcode: ${p.barcode}`"></span>
+                                                <div class="text-xs text-slate-500 font-mono mt-0.5" x-show="p.barcode">
+                                                    <span x-text="`Barcode: ${p.barcode}`"></span>
                                                 </div>
                                             </div>
                                             <div class="text-right">
@@ -775,6 +773,7 @@
                     if (!item.unit_price && prod.selling_price > 0) {
                         item.unit_price = parseFloat(prod.selling_price);
                     }
+                    if (window.setFormDirty) window.setFormDirty(true);
                     this.computeItem(item);
                 },
 
@@ -1127,6 +1126,8 @@
                         this.openQuickCustomerModal();
                         return false;
                     }
+
+                    if (window.setFormDirty) window.setFormDirty(false);
                     return true;
                 }
             };

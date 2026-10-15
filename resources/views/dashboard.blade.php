@@ -277,14 +277,18 @@
                                 <div class="glass-card rounded-3xl p-5 border-2 border-slate-200 bg-white shadow-xs space-y-3">
                                     <div>
                                         <div class="flex items-center justify-between">
-                                            <span class="text-[10px] font-mono font-bold text-slate-500">SKU: {{ $prod->sku }}</span>
+                                            @if($prod->barcode)
+                                                <span class="text-[10px] font-mono font-bold text-slate-500">Barcode: {{ $prod->barcode }}</span>
+                                            @else
+                                                <span></span>
+                                            @endif
                                             <span class="px-2 py-0.5 rounded-full text-[10px] font-black {{ $pStock <= 0 ? 'bg-rose-100 text-rose-800' : ($pStock <= $prod->minimum_stock_level ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800') }}">
                                                 {{ $pStock <= 0 ? 'Out of Stock' : ($pStock <= $prod->minimum_stock_level ? 'Low Stock' : 'In Stock') }}
                                             </span>
                                         </div>
                                         <h4 class="text-base font-black text-slate-900 mt-1">{{ $prod->name }}</h4>
-                                        @if($prod->category)
-                                            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">{{ $prod->category->name }}</span>
+                                        @if($prod->supplier)
+                                            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-600">{{ $prod->supplier->company_name ?? $prod->supplier->name }}</span>
                                         @endif
                                     </div>
 

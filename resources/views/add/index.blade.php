@@ -221,18 +221,8 @@
                             </div>
                         </div>
 
-                        <!-- Category, Unit, Alert Level -->
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                            <div>
-                                <label for="prod_category" class="block text-xs font-bold text-slate-800 mb-1.5">Category (Optional)</label>
-                                <select id="prod_category" name="category_id" class="w-full px-3 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-xs font-bold text-slate-800 focus:border-emerald-600 focus:outline-none">
-                                    <option value="">-- General (No Category) --</option>
-                                    @foreach($categories as $cat)
-                                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
+                        <!-- Unit & Alert Level -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                             <div>
                                 <label for="prod_unit" class="block text-xs font-bold text-slate-800 mb-1.5">Unit of Measure</label>
                                 <input type="text" id="prod_unit" name="unit" value="Pcs" placeholder="Pcs, Kg, Box, Bag..." 

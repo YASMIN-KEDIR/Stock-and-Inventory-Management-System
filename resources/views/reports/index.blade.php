@@ -139,8 +139,8 @@
                     <table class="w-full text-left text-sm">
                         <thead class="bg-slate-100/70 text-slate-500 text-[11px] uppercase tracking-wider font-semibold">
                             <tr>
-                                <th class="px-6 py-4">Product Name & SKU</th>
-                                <th class="px-6 py-4">Category</th>
+                                <th class="px-6 py-4">Product Name</th>
+                                <th class="px-6 py-4">Supplier</th>
                                 <th class="px-6 py-4 text-center">Stock Level</th>
                                 <th class="px-6 py-4 text-right">Buying Cost</th>
                                 <th class="px-6 py-4 text-right">Selling Price</th>
@@ -151,11 +151,10 @@
                         <tbody class="divide-y divide-slate-100">
                             @foreach($stockData as $prod)
                                 <tr class="hover:bg-slate-50/80 transition-colors">
-                                    <td class="px-6 py-4 font-medium text-slate-900">
+                                    <td class="px-6 py-4 font-bold text-slate-900">
                                         {{ $prod->name }}
-                                        <span class="block font-mono text-xs text-slate-400">SKU: {{ $prod->sku }}</span>
                                     </td>
-                                    <td class="px-6 py-4 text-slate-600">{{ $prod->category->name ?? '—' }}</td>
+                                    <td class="px-6 py-4 text-slate-600 font-semibold">{{ $prod->supplier->company_name ?? $prod->supplier->name ?? '—' }}</td>
                                     <td class="px-6 py-4 text-center font-bold {{ $prod->current_stock <= $prod->minimum_stock_level ? 'text-amber-600' : 'text-slate-800' }}">
                                         {{ $prod->current_stock }} {{ $prod->unit }}
                                     </td>

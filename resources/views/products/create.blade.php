@@ -75,19 +75,13 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="category_id" class="block text-xs font-bold text-slate-800 mb-1.5">Category (Optional)</label>
-                            <select id="category_id" name="category_id" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-semibold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
-                                <option value="">None / General (No Category)</option>
-                                @foreach($categories as $cat)
-                                    <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
+                            <label for="supplier_id" class="block text-xs font-bold text-slate-800 mb-1.5">Supplier (Optional)</label>
+                            <select id="supplier_id" name="supplier_id" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-semibold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
+                                <option value="">No Default Supplier</option>
+                                @foreach($suppliers as $sup)
+                                    <option value="{{ $sup->id }}" {{ old('supplier_id') == $sup->id ? 'selected' : '' }}>{{ $sup->company_name ?? $sup->name }}</option>
                                 @endforeach
                             </select>
-                        </div>
-
-                        <div>
-                            <label for="sku" class="block text-xs font-bold text-slate-800 mb-1.5">Product Code (Optional)</label>
-                            <input type="text" id="sku" name="sku" value="{{ old('sku') }}" placeholder="Leave blank to auto-generate" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-mono font-bold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
-                            @error('sku') <p class="text-xs font-bold text-rose-600 mt-1">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
@@ -96,23 +90,13 @@
                         </div>
 
                         <div>
-                            <label for="barcode" class="block text-xs font-bold text-slate-800 mb-1.5">Barcode / Scanner Code</label>
+                            <label for="barcode" class="block text-xs font-bold text-slate-800 mb-1.5">Barcode / Scanner Code (Optional)</label>
                             <input type="text" id="barcode" name="barcode" value="{{ old('barcode') }}" placeholder="e.g. 097855173560" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-mono font-bold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
                         </div>
 
                         <div>
                             <label for="minimum_stock_level" class="block text-xs font-bold text-slate-800 mb-1.5">Low Stock Alert Level</label>
                             <input type="number" id="minimum_stock_level" name="minimum_stock_level" value="{{ old('minimum_stock_level') }}" min="0" placeholder="5" onfocus="this.select()" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
-                        </div>
-
-                        <div>
-                            <label for="supplier_id" class="block text-xs font-bold text-slate-800 mb-1.5">Supplier (Optional)</label>
-                            <select id="supplier_id" name="supplier_id" class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-300 text-sm font-semibold text-slate-900 focus:border-indigo-600 focus:outline-none focus:ring-4 focus:ring-indigo-100">
-                                <option value="">No Default Supplier</option>
-                                @foreach($suppliers as $sup)
-                                    <option value="{{ $sup->id }}" {{ old('supplier_id') == $sup->id ? 'selected' : '' }}>{{ $sup->company_name ?? $sup->name }}</option>
-                                @endforeach
-                            </select>
                         </div>
                     </div>
 

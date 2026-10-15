@@ -42,7 +42,6 @@ class InventoryInfoController extends Controller
 
         $inStockCount = max(0, $totalProductsCount - ($lowStockCount + $outOfStockCount));
 
-        $categories = Category::where('is_active', true)->orderBy('name', 'asc')->get();
         $allProducts = Product::orderBy('name', 'asc')->get();
 
         // Top 7 Products by Stock Quantity for visual Bar Graph
@@ -61,19 +60,14 @@ class InventoryInfoController extends Controller
         // 1. Valuation Tab Data
         $products = null;
         if ($tab === 'valuation') {
-            $query = Product::with(['category', 'supplier'])->where('is_active', true);
+            $query = Product::with(['supplier'])->where('is_active', true);
 
             if ($request->filled('search')) {
                 $search = $request->input('search');
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('sku', 'like', "%{$search}%")
                       ->orWhere('barcode', 'like', "%{$search}%");
                 });
-            }
-
-            if ($request->filled('category_id')) {
-                $query->where('category_id', $request->input('category_id'));
             }
 
             if ($request->input('status') === 'low_stock') {
@@ -160,7 +154,6 @@ class InventoryInfoController extends Controller
             'outOfStockCount',
             'inStockCount',
             'products',
-            'categories',
             'allProducts',
             'topStockProducts',
             'totalPurchasesIn',

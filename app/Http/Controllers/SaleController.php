@@ -94,9 +94,9 @@ class SaleController extends Controller
                 $paymentStatus = 'PARTIALLY_PAID';
             }
 
-            // Generate unique sequential invoice number (INV-YYYYMM-XXXX) using max ID
+            // Generate simple, clean sequential invoice number (e.g. INV-0004)
             $nextSaleId = (Sale::max('id') ?? 0) + 1;
-            $invoiceNumber = 'INV-' . date('Ym') . '-' . str_pad($nextSaleId, 4, '0', STR_PAD_LEFT);
+            $invoiceNumber = 'INV-' . str_pad($nextSaleId, 4, '0', STR_PAD_LEFT);
 
             // Create sales invoice header
             $sale = Sale::create([

@@ -9,9 +9,11 @@
             <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
                 <div>
                     <div class="flex items-center gap-2 mb-2">
-                        <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700">
-                            {{ $product->category->name ?? 'Uncategorized' }}
-                        </span>
+                        @if($product->supplier)
+                            <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-teal-50 text-teal-700 border border-teal-200">
+                                {{ $product->supplier->company_name ?? $product->supplier->name }}
+                            </span>
+                        @endif
                         @if($product->current_stock <= 0)
                             <span class="text-xs font-semibold px-2.5 py-1 rounded-lg badge-outofstock">Out of Stock</span>
                         @elseif($product->current_stock <= $product->minimum_stock_level)
@@ -21,12 +23,11 @@
                         @endif
                     </div>
                     <h1 class="text-2xl font-extrabold text-slate-900">{{ $product->name }}</h1>
-                    <div class="flex items-center gap-4 mt-2 text-xs font-mono text-slate-500">
-                        <span>SKU: <strong class="text-slate-800">{{ $product->sku }}</strong></span>
-                        @if($product->barcode)
+                    @if($product->barcode)
+                        <div class="mt-2 text-xs font-mono text-slate-500">
                             <span>Barcode: <strong class="text-slate-800">{{ $product->barcode }}</strong></span>
-                        @endif
-                    </div>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="flex items-center gap-3">

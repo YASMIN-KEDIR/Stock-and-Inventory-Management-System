@@ -17,7 +17,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with(['category', 'supplier']);
+        $query = Product::with(['supplier']);
 
         // Search Filter
         if ($request->filled('search')) {
@@ -29,11 +29,6 @@ class ProductController extends Controller
             });
         }
 
-        // Category Filter
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->input('category_id'));
-        }
-
         // Low Stock / Out of Stock Filter
         if ($request->input('filter') === 'low_stock') {
             $query->where('current_stock', '<=', DB::raw('minimum_stock_level'));
@@ -42,17 +37,15 @@ class ProductController extends Controller
         }
 
         $products = $query->orderBy('name', 'asc')->paginate(12)->withQueryString();
-        $categories = Category::where('is_active', true)->orderBy('name', 'asc')->get();
 
-        return view('products.index', compact('products', 'categories'));
+        return view('products.index', compact('products'));
     }
 
     public function create()
     {
-        $categories = Category::where('is_active', true)->orderBy('name', 'asc')->get();
         $suppliers = Supplier::where('is_active', true)->orderBy('name', 'asc')->get();
 
-        return view('products.create', compact('categories', 'suppliers'));
+        return view('products.create', compact('suppliers'));
     }
 
     public function store(Request $request)
@@ -149,10 +142,9 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $categories = Category::where('is_active', true)->orderBy('name', 'asc')->get();
         $suppliers = Supplier::where('is_active', true)->orderBy('name', 'asc')->get();
 
-        return view('products.edit', compact('product', 'categories', 'suppliers'));
+        return view('products.edit', compact('product', 'suppliers'));
     }
 
     public function update(Request $request, Product $product)

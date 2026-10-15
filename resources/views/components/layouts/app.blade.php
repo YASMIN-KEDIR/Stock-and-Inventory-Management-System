@@ -277,11 +277,110 @@
         </div>
     </div>
 
-    <!-- Initialize Lucide Icons -->
+    <!-- Initialize Lucide Icons & Global Unsaved Data Loss Guard -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            lucide.createIcons();
+            if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                window.lucide.createIcons();
+            }
         });
+
+        // Global Protection: Confirm Before Leaving When User Has Started Entering Data
+        (function() {
+            let formIsDirty = false;
+            let isSubmitting = false;
+            let historyPushed = false;
+
+            window.setFormDirty = function(val) {
+                formIsDirty = !!val;
+                if (formIsDirty && !historyPushed) {
+                    try {
+                        window.history.pushState({ formGuard: true }, document.title, window.location.href);
+                        historyPushed = true;
+                    } catch(e) {}
+                }
+            };
+
+            window.isFormDirty = function() {
+                return formIsDirty;
+            };
+
+            // Track inputs on POST/action forms (data entry)
+            function checkFormTarget(target) {
+                const form = target.closest('form');
+                if (!form) return false;
+                // Ignore GET filter/search forms
+                const method = (form.getAttribute('method') || '').toUpperCase();
+                if (method === 'GET' && !form.hasAttribute('data-track-dirty')) return false;
+                if (form.hasAttribute('data-no-dirty-track')) return false;
+                return true;
+            }
+
+            document.addEventListener('input', function(e) {
+                if (checkFormTarget(e.target)) {
+                    window.setFormDirty(true);
+                }
+            }, true);
+
+            document.addEventListener('change', function(e) {
+                if (checkFormTarget(e.target)) {
+                    window.setFormDirty(true);
+                }
+            }, true);
+
+            // Disarm on form submission
+            document.addEventListener('submit', function(e) {
+                isSubmitting = true;
+                formIsDirty = false;
+            }, true);
+
+            // 1. Browser Tab Close, Refresh, URL change
+            window.addEventListener('beforeunload', function(e) {
+                if (formIsDirty && !isSubmitting) {
+                    e.preventDefault();
+                    e.returnValue = 'You have unsaved data. Are you sure you want to leave and lose your entered data?';
+                    return e.returnValue;
+                }
+            });
+
+            // 2. In-App Navigation Links (Sidebar, Tabs, Cancel, Header Switchers)
+            document.addEventListener('click', function(e) {
+                if (isSubmitting || !formIsDirty) return;
+
+                const link = e.target.closest('a');
+                if (!link) return;
+
+                const href = link.getAttribute('href');
+                if (!href || href.startsWith('#') || href.startsWith('javascript:') || link.target === '_blank') return;
+
+                const currentBase = window.location.href.split('#')[0];
+                const targetBase = link.href.split('#')[0];
+
+                if (currentBase !== targetBase) {
+                    const confirmLeave = confirm('⚠️ You have entered data that is not saved yet!\n\nAre you sure you want to leave this page? What you started typing/taking will be lost.');
+                    if (!confirmLeave) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    }
+                    formIsDirty = false;
+                }
+            }, true);
+
+            // 3. Browser Back Button Guard
+            window.addEventListener('popstate', function(e) {
+                if (formIsDirty && !isSubmitting) {
+                    const confirmBack = confirm('⚠️ You have started entering data!\n\nAre you sure you want to go back? All entered data will be lost.');
+                    if (!confirmBack) {
+                        // User chose to stay: Re-push history state to stay on this screen
+                        window.history.pushState({ formGuard: true }, document.title, window.location.href);
+                    } else {
+                        formIsDirty = false;
+                        window.history.back();
+                    }
+                }
+            });
+        })();
     </script>
 </body>
 </html>
