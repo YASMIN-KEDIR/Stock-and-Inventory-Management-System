@@ -16,7 +16,7 @@
                         <option value="">Choose Purchase Order with Payable Balance</option>
                         @foreach($unpaidPurchases as $p)
                             <option value="{{ $p->id }}" {{ (old('purchase_id') ?? ($purchase->id ?? '')) == $p->id ? 'selected' : '' }}>
-                                {{ $p->purchase_number }} &bull; {{ $p->supplier->company_name ?? $p->supplier->name }} (Owed: ${{ number_format($p->remaining_balance, 2) }})
+                                {{ $p->purchase_number }} &bull; {{ $p->supplier->company_name ?? $p->supplier->name }} (Owed: {{ number_format($p->remaining_balance, 2) }} ETB)
                             </option>
                         @endforeach
                     </select>
@@ -25,7 +25,7 @@
 
                 <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 text-xs" x-show="currentBalance > 0">
                     <span class="font-bold">Total Payable Balance Owed:</span>
-                    <span class="font-mono text-sm font-extrabold ml-1" x-text="`$${currentBalance.toFixed(2)}`"></span>
+                    <span class="font-mono text-sm font-extrabold ml-1" x-text="`${currentBalance.toFixed(2)} ETB`"></span>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -35,7 +35,7 @@
                     </div>
 
                     <div>
-                        <label for="amount" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Disbursement Amount ($) *</label>
+                        <label for="amount" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Disbursement Amount (ETB) *</label>
                         <input type="number" step="0.01" id="amount" name="amount" value="{{ old('amount') }}" required min="0.01" :max="currentBalance || 999999" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                         @error('amount') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
                     </div>

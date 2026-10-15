@@ -28,7 +28,7 @@
                             <th class="px-6 py-4">PO Number</th>
                             <th class="px-6 py-4">Supplier</th>
                             <th class="px-6 py-4">Date</th>
-                            <th class="px-6 py-4 text-right">Grand Total</th>
+                            <th class="px-6 py-4 text-right">Grand Total (ETB)</th>
                             <th class="px-6 py-4 text-right">Amount Paid</th>
                             <th class="px-6 py-4 text-right">Remaining Debt</th>
                             <th class="px-6 py-4 text-center">Status</th>
@@ -50,13 +50,13 @@
                                     {{ $po->purchase_date->format('M d, Y') }}
                                 </td>
                                 <td class="px-6 py-4 text-right font-bold text-slate-900">
-                                    ${{ number_format($po->grand_total, 2) }}
+                                    {{ number_format($po->grand_total, 2) }} <span class="text-[11px] font-normal text-slate-500">ETB</span>
                                 </td>
                                 <td class="px-6 py-4 text-right font-medium text-emerald-600">
-                                    ${{ number_format($po->amount_paid, 2) }}
+                                    {{ number_format($po->amount_paid, 2) }} <span class="text-[11px] font-normal text-slate-500">ETB</span>
                                 </td>
                                 <td class="px-6 py-4 text-right font-bold {{ $po->remaining_balance > 0 ? 'text-rose-600' : 'text-slate-400' }}">
-                                    ${{ number_format($po->remaining_balance, 2) }}
+                                    {{ number_format($po->remaining_balance, 2) }} <span class="text-[11px] font-normal text-slate-500">ETB</span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold {{ $po->payment_status === 'PAID' ? 'badge-paid' : ($po->payment_status === 'PARTIALLY_PAID' ? 'badge-partial' : 'badge-unpaid') }}">

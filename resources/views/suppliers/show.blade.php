@@ -31,15 +31,15 @@
             <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-slate-100">
                 <div class="p-4 rounded-2xl bg-slate-50">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Invoiced</span>
-                    <p class="text-xl font-black text-slate-900 mt-1">${{ number_format($supplier->total_purchased, 2) }}</p>
+                    <p class="text-xl font-black text-slate-900 mt-1">{{ number_format($supplier->total_purchased, 2) }} <span class="text-xs text-slate-500">ETB</span></p>
                 </div>
                 <div class="p-4 rounded-2xl bg-slate-50">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Settled</span>
-                    <p class="text-xl font-black text-emerald-600 mt-1">${{ number_format($supplier->total_paid, 2) }}</p>
+                    <p class="text-xl font-black text-emerald-600 mt-1">{{ number_format($supplier->total_paid, 2) }} <span class="text-xs text-slate-500">ETB</span></p>
                 </div>
                 <div class="p-4 rounded-2xl bg-slate-50">
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Outstanding Payable</span>
-                    <p class="text-xl font-black text-rose-600 mt-1">${{ number_format($supplier->outstanding_balance, 2) }}</p>
+                    <p class="text-xl font-black text-rose-600 mt-1">{{ number_format($supplier->outstanding_balance, 2) }} <span class="text-xs text-slate-500">ETB</span></p>
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
                         <tr>
                             <th class="px-4 py-3 rounded-l-xl">PO Number</th>
                             <th class="px-4 py-3">Date</th>
-                            <th class="px-4 py-3 text-right">Grand Total</th>
+                            <th class="px-4 py-3 text-right">Grand Total (ETB)</th>
                             <th class="px-4 py-3 text-right">Amount Paid</th>
                             <th class="px-4 py-3 text-right">Remaining</th>
                             <th class="px-4 py-3 text-center">Status</th>
@@ -66,9 +66,9 @@
                             <tr class="hover:bg-slate-50/80 transition-colors">
                                 <td class="px-4 py-3 font-bold text-slate-900 font-mono text-xs">{{ $po->purchase_number }}</td>
                                 <td class="px-4 py-3 text-slate-600">{{ $po->purchase_date->format('M d, Y') }}</td>
-                                <td class="px-4 py-3 text-right font-medium text-slate-800">${{ number_format($po->grand_total, 2) }}</td>
-                                <td class="px-4 py-3 text-right font-medium text-emerald-600">${{ number_format($po->amount_paid, 2) }}</td>
-                                <td class="px-4 py-3 text-right font-bold {{ $po->remaining_balance > 0 ? 'text-rose-600' : 'text-slate-400' }}">${{ number_format($po->remaining_balance, 2) }}</td>
+                                <td class="px-4 py-3 text-right font-medium text-slate-800">{{ number_format($po->grand_total, 2) }} ETB</td>
+                                <td class="px-4 py-3 text-right font-medium text-emerald-600">{{ number_format($po->amount_paid, 2) }} ETB</td>
+                                <td class="px-4 py-3 text-right font-bold {{ $po->remaining_balance > 0 ? 'text-rose-600' : 'text-slate-400' }}">{{ number_format($po->remaining_balance, 2) }} ETB</td>
                                 <td class="px-4 py-3 text-center">
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold {{ $po->payment_status === 'PAID' ? 'badge-paid' : ($po->payment_status === 'PARTIALLY_PAID' ? 'badge-partial' : 'badge-unpaid') }}">
                                         {{ $po->payment_status }}

@@ -4,8 +4,28 @@
     <x-slot:headerSubtitle>Register Supplier</x-slot:headerSubtitle>
 
     <div class="max-w-3xl mx-auto">
-        <div class="glass-card rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
-            <h2 class="text-xl font-bold text-slate-900 mb-6">Register New Supplier Profile</h2>
+            <!-- Supplier Create Header & Quick Switcher -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 mb-6">
+                <div>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-teal-50 text-teal-800 border border-teal-200 mb-1">
+                        Section 3 &bull; Users & Suppliers
+                    </span>
+                    <h2 class="text-xl font-black text-slate-900">Register New Supplier Profile</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Quickly register vendor contact and business information.</p>
+                </div>
+                
+                <div class="flex items-center bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+                    <a href="{{ route('suppliers.index') }}" class="px-3 py-1.5 rounded-lg text-slate-700 hover:text-slate-900 font-bold text-xs transition-colors">
+                        🏢 View Suppliers
+                    </a>
+                    <a href="{{ route('customers.create') }}" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 font-bold text-xs transition-colors">
+                        👥 Add Customer
+                    </a>
+                    <a href="{{ route('products.create') }}" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 font-bold text-xs transition-colors">
+                        📦 Add Product
+                    </a>
+                </div>
+            </div>
 
             <form method="POST" action="{{ route('suppliers.store') }}" class="space-y-5">
                 @csrf

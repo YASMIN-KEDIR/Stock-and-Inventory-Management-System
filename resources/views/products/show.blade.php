@@ -48,16 +48,20 @@
                     <p class="text-xl font-black text-slate-900 mt-1">{{ $product->current_stock }} <span class="text-sm font-normal text-slate-500">{{ $product->unit }}</span></p>
                 </div>
                 <div class="p-4 rounded-2xl bg-slate-50">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Unit Cost</span>
-                    <p class="text-xl font-black text-slate-900 mt-1">${{ number_format($product->cost_price, 2) }}</p>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Buying Cost (የግዢ ዋጋ)</span>
+                    <p class="text-xl font-black text-slate-900 mt-1">{{ number_format($product->cost_price, 2) }} <span class="text-xs font-bold text-slate-500">ETB</span></p>
                 </div>
                 <div class="p-4 rounded-2xl bg-slate-50">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Retail Price</span>
-                    <p class="text-xl font-black text-indigo-600 mt-1">${{ number_format($product->selling_price, 2) }}</p>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Selling Price</span>
+                    @if($product->selling_price > 0)
+                        <p class="text-xl font-black text-emerald-600 mt-1">{{ number_format($product->selling_price, 2) }} <span class="text-xs font-bold text-slate-500">ETB</span></p>
+                    @else
+                        <p class="text-sm font-black text-indigo-700 mt-2">Dynamic (Set at sale)</p>
+                    @endif
                 </div>
                 <div class="p-4 rounded-2xl bg-slate-50">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Stock Valuation</span>
-                    <p class="text-xl font-black text-emerald-600 mt-1">${{ number_format($product->stock_valuation_at_retail, 2) }}</p>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Stock Valuation (Cost)</span>
+                    <p class="text-xl font-black text-slate-900 mt-1">{{ number_format($product->stock_valuation_at_cost, 2) }} <span class="text-xs font-bold text-slate-500">ETB</span></p>
                 </div>
             </div>
 

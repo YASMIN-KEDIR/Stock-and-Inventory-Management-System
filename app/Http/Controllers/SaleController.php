@@ -18,29 +18,15 @@ class SaleController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Sale::with(['customer', 'user']);
-
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where('invoice_number', 'like', "%{$search}%")
-                  ->orWhereHas('customer', function ($q) use ($search) {
-                      $q->where('name', 'like', "%{$search}%")
-                        ->orWhere('phone', 'like', "%{$search}%");
-                  });
-        }
-
-        if ($request->filled('payment_status')) {
-            $query->where('payment_status', $request->input('payment_status'));
-        }
-
-        $sales = $query->latest('sale_date')->paginate(10)->withQueryString();
-
-        return view('sales.index', compact('sales'));
+        return redirect()->route('info.index', array_merge(['tab' => 'invoices'], $request->all()));
     }
 
     public function create()
     {
-        $customers = Customer::where('is_active', true)->orderBy('name', 'asc')->get();
+        $customers = Customer::where('is_active', true)
+            ->withSum('sales as outstanding_debt', 'remaining_balance')
+            ->orderBy('name', 'asc')
+            ->get();
         $products = Product::where('is_active', true)->orderBy('name', 'asc')->get();
 
         return view('sales.create', compact('customers', 'products'));
@@ -62,9 +48,15 @@ class SaleController extends Controller
             'payment_method' => ['nullable', 'string'],
             'reference_number' => ['nullable', 'string'],
             'notes' => ['nullable', 'string'],
+            'receipt_screenshot' => ['nullable', 'image', 'max:10240'],
         ]);
 
-        $sale = DB::transaction(function () use ($validated, $request) {
+        $receiptPath = null;
+        if ($request->hasFile('receipt_screenshot') && $request->file('receipt_screenshot')->isValid()) {
+            $receiptPath = $request->file('receipt_screenshot')->store('receipts', 'public');
+        }
+
+        $sale = DB::transaction(function () use ($validated, $request, $receiptPath) {
             $productIds = collect($validated['items'])->pluck('product_id')->unique()->toArray();
 
             // Lock products for update
@@ -88,6 +80,12 @@ class SaleController extends Controller
 
             $amountPaid = (float) ($validated['amount_paid'] ?? 0);
             $remainingBalance = max(0, $grandTotal - $amountPaid);
+
+            if ($remainingBalance > 0 && empty($validated['customer_id'])) {
+                throw ValidationException::withMessages([
+                    'customer_id' => 'Credit sale (ያልተከፈለ ብድር) requires selecting or adding a Customer to track who owes this balance.',
+                ]);
+            }
 
             $paymentStatus = 'UNPAID';
             if ($amountPaid >= $grandTotal && $grandTotal > 0) {
@@ -113,6 +111,8 @@ class SaleController extends Controller
                 'amount_paid' => $amountPaid,
                 'remaining_balance' => $remainingBalance,
                 'payment_status' => $paymentStatus,
+                'payment_method' => $validated['payment_method'] ?? 'CASH',
+                'receipt_image' => $receiptPath,
                 'notes' => $validated['notes'] ?? null,
             ]);
 

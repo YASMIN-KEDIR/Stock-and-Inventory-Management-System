@@ -23,6 +23,8 @@ class Sale extends Model
         'amount_paid',
         'remaining_balance',
         'payment_status',
+        'payment_method',
+        'receipt_image',
         'notes',
     ];
 

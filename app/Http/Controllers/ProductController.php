@@ -132,6 +132,10 @@ class ProductController extends Controller
             ]);
         }
 
+        if ($request->filled('redirect_to') && $request->input('redirect_to') === 'add') {
+            return redirect()->route('add.index', ['tab' => 'product'])->with('success', 'Product "' . $product->name . '" created successfully.');
+        }
+
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
     }
 

@@ -56,6 +56,10 @@ class SupplierController extends Controller
             'user_agent' => $request->userAgent(),
         ]);
 
+        if ($request->filled('redirect_to') && $request->input('redirect_to') === 'add') {
+            return redirect()->route('add.index', ['tab' => 'supplier'])->with('success', 'Supplier "' . $supplier->name . '" registered successfully.');
+        }
+
         return redirect()->route('suppliers.index')->with('success', 'Supplier profile registered successfully.');
     }
 

@@ -13,7 +13,7 @@
                         <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                             <i data-lucide="search" class="w-4 h-4"></i>
                         </div>
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by name, SKU, or barcode..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by name, code, or barcode..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
 
                     <!-- Category Select -->
@@ -32,14 +32,18 @@
                     </select>
                 </div>
 
-                <div class="flex items-center gap-3">
-                    <button type="submit" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold transition-all">Filter</button>
+                <div class="flex items-center gap-2.5">
+                    <button type="submit" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold transition-all cursor-pointer">Filter</button>
                     @if(request()->hasAny(['search', 'category_id', 'filter']))
-                        <a href="{{ route('products.index') }}" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition-all">Reset</a>
+                        <a href="{{ route('products.index') }}" class="px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition-all">Reset</a>
                     @endif
-                    <a href="{{ route('products.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold shadow-xs transition-all">
+                    <a href="{{ route('categories.index') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-sm font-bold transition-all" title="Manage Categories">
+                        <i data-lucide="folder" class="w-4 h-4 text-slate-600"></i>
+                        <span>Categories</span>
+                    </a>
+                    <a href="{{ route('products.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold shadow-xs transition-all">
                         <i data-lucide="plus" class="w-4 h-4"></i>
-                        <span>Add Product</span>
+                        <span>+ Add Product</span>
                     </a>
                 </div>
             </form>
@@ -53,8 +57,8 @@
                         <tr>
                             <th class="px-6 py-4">Product Info</th>
                             <th class="px-6 py-4">Category & Supplier</th>
-                            <th class="px-6 py-4 text-right">Cost Price</th>
-                            <th class="px-6 py-4 text-right">Selling Price</th>
+                            <th class="px-6 py-4 text-right">Buying Cost (Birr)</th>
+                            <th class="px-6 py-4 text-right">Selling Price (Birr)</th>
                             <th class="px-6 py-4 text-center">Current Stock</th>
                             <th class="px-6 py-4 text-center">Status</th>
                             <th class="px-6 py-4 text-right">Actions</th>
@@ -68,9 +72,9 @@
                                         {{ $product->name }}
                                     </a>
                                     <div class="flex items-center gap-2 mt-0.5 text-xs text-slate-400 font-mono">
-                                        <span>SKU: {{ $product->sku }}</span>
+                                        <span>Code: {{ $product->sku }}</span>
                                         @if($product->barcode)
-                                            <span>&bull; UPC: {{ $product->barcode }}</span>
+                                            <span>&bull; Barcode: {{ $product->barcode }}</span>
                                         @endif
                                     </div>
                                 </td>
@@ -82,11 +86,15 @@
                                         {{ $product->supplier->company_name ?? $product->supplier->name ?? 'No Default Supplier' }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-right font-medium text-slate-600">
-                                    ${{ number_format($product->cost_price, 2) }}
+                                <td class="px-6 py-4 text-right font-bold text-slate-800">
+                                    {{ number_format($product->cost_price, 2) }} <span class="text-[11px] font-normal text-slate-500">Birr</span>
                                 </td>
-                                <td class="px-6 py-4 text-right font-bold text-slate-900">
-                                    ${{ number_format($product->selling_price, 2) }}
+                                <td class="px-6 py-4 text-right">
+                                    @if($product->selling_price > 0)
+                                        <span class="font-bold text-emerald-700">{{ number_format($product->selling_price, 2) }} <span class="text-[11px] font-normal text-slate-500">Birr</span></span>
+                                    @else
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-600">At Sale</span>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <span class="font-bold text-sm {{ $product->current_stock <= 0 ? 'text-rose-600' : ($product->current_stock <= $product->minimum_stock_level ? 'text-amber-600' : 'text-slate-900') }}">

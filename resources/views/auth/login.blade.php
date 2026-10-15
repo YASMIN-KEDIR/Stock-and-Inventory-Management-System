@@ -3,12 +3,8 @@
 
     <div class="bg-white border-2 border-slate-200 rounded-3xl p-8 sm:p-10 shadow-xl shadow-slate-200/50">
         <!-- Logo Header -->
-        <div class="text-center mb-8">
-            <div class="inline-flex w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-indigo-600 items-center justify-center text-white shadow-lg shadow-emerald-600/30 mb-4">
-                <i data-lucide="shopping-bag" class="w-8 h-8 text-white"></i>
-            </div>
-            <h1 class="text-3xl font-black tracking-tight text-slate-900">Merkato<span class="text-emerald-600">.</span></h1>
-            <p class="text-xs text-emerald-800 font-bold uppercase tracking-wider mt-1 bg-emerald-50 py-1 px-3 rounded-full inline-block border border-emerald-200">Retail POS & Inventory System</p>
+        <div class="flex flex-col items-center justify-center text-center mb-8">
+            <x-logo size="lg" variant="dark" />
         </div>
 
         @if(session('success'))

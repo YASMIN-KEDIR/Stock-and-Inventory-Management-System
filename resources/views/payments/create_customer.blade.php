@@ -16,7 +16,7 @@
                         <option value="">Choose Invoice with Outstanding Balance</option>
                         @foreach($unpaidSales as $s)
                             <option value="{{ $s->id }}" {{ (old('sale_id') ?? ($sale->id ?? '')) == $s->id ? 'selected' : '' }}>
-                                {{ $s->invoice_number }} &bull; {{ $s->customer->name ?? 'Walk-In Customer' }} (Due: ${{ number_format($s->remaining_balance, 2) }})
+                                {{ $s->invoice_number }} &bull; {{ $s->customer->name ?? 'Walk-In Customer' }} (Due: {{ number_format($s->remaining_balance, 2) }} ETB)
                             </option>
                         @endforeach
                     </select>
@@ -25,7 +25,7 @@
 
                 <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs" x-show="currentBalance > 0">
                     <span class="font-bold">Outstanding Debt on Invoice:</span>
-                    <span class="font-mono text-sm font-extrabold ml-1" x-text="`$${currentBalance.toFixed(2)}`"></span>
+                    <span class="font-mono text-sm font-extrabold ml-1" x-text="`${currentBalance.toFixed(2)} ETB`"></span>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -35,7 +35,7 @@
                     </div>
 
                     <div>
-                        <label for="amount" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Payment Amount ($) *</label>
+                        <label for="amount" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Payment Amount (ETB) *</label>
                         <input type="number" step="0.01" id="amount" name="amount" value="{{ old('amount') }}" required min="0.01" :max="currentBalance || 999999" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-3 rounded-xl bg-white border border-slate-200 text-sm font-bold text-emerald-600 focus:outline-none focus:ring-2 focus:ring-indigo-500">
                         @error('amount') <p class="text-xs text-rose-600 mt-1">{{ $message }}</p> @enderror
                     </div>

@@ -38,15 +38,15 @@
                     <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Financial Summary</span>
                     <div class="flex justify-between text-xs mt-1">
                         <span class="text-slate-600">Grand Total:</span>
-                        <span class="font-bold text-slate-900">${{ number_format($purchase->grand_total, 2) }}</span>
+                        <span class="font-bold text-slate-900">{{ number_format($purchase->grand_total, 2) }} ETB</span>
                     </div>
                     <div class="flex justify-between text-xs mt-0.5">
                         <span class="text-slate-600">Total Settled:</span>
-                        <span class="font-bold text-emerald-600">${{ number_format($purchase->amount_paid, 2) }}</span>
+                        <span class="font-bold text-emerald-600">{{ number_format($purchase->amount_paid, 2) }} ETB</span>
                     </div>
                     <div class="flex justify-between text-xs mt-0.5">
                         <span class="text-slate-600">Balance Owed:</span>
-                        <span class="font-bold text-rose-600">${{ number_format($purchase->remaining_balance, 2) }}</span>
+                        <span class="font-bold text-rose-600">{{ number_format($purchase->remaining_balance, 2) }} ETB</span>
                     </div>
                 </div>
             </div>
@@ -72,8 +72,8 @@
                                         <span class="block font-mono text-[11px] text-slate-400">SKU: {{ $item->product->sku ?? '—' }}</span>
                                     </td>
                                     <td class="px-4 py-3 text-center font-bold text-slate-800">{{ $item->quantity }}</td>
-                                    <td class="px-4 py-3 text-right text-slate-600">${{ number_format($item->unit_cost, 2) }}</td>
-                                    <td class="px-4 py-3 text-right font-bold text-slate-900">${{ number_format($item->subtotal, 2) }}</td>
+                                    <td class="px-4 py-3 text-right text-slate-600">{{ number_format($item->unit_cost, 2) }} ETB</td>
+                                    <td class="px-4 py-3 text-right font-bold text-slate-900">{{ number_format($item->subtotal, 2) }} ETB</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -93,7 +93,7 @@
                                 <span class="font-bold text-slate-900 font-mono">{{ $pay->payment_number }}</span>
                                 <span class="text-slate-500 ml-2">{{ $pay->payment_date->format('M d, Y') }} via {{ $pay->payment_method }}</span>
                             </div>
-                            <span class="font-bold text-emerald-600 text-sm">${{ number_format($pay->amount, 2) }}</span>
+                            <span class="font-bold text-emerald-600 text-sm">{{ number_format($pay->amount, 2) }} ETB</span>
                         </div>
                     @endforeach
                 </div>

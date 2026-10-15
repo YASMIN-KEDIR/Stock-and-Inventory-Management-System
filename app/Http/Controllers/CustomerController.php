@@ -41,7 +41,7 @@ class CustomerController extends Controller
             'is_active' => ['boolean'],
         ]);
 
-        $validated['is_active'] = $request->has('is_active');
+        $validated['is_active'] = $request->has('is_active') ? (bool)$request->input('is_active') : true;
         $customer = Customer::create($validated);
 
         AuditLog::create([
@@ -53,6 +53,23 @@ class CustomerController extends Controller
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
         ]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Customer registered successfully.',
+                'customer' => [
+                    'id' => $customer->id,
+                    'name' => $customer->name,
+                    'phone' => $customer->phone,
+                    'outstanding_debt' => 0.00,
+                ],
+            ]);
+        }
+
+        if ($request->filled('redirect_to') && $request->input('redirect_to') === 'add') {
+            return redirect()->route('add.index', ['tab' => 'customer'])->with('success', 'Customer "' . $customer->name . '" registered successfully.');
+        }
 
         return redirect()->route('customers.index')->with('success', 'Customer profile registered successfully.');
     }

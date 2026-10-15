@@ -66,13 +66,13 @@
                             </div>
 
                             <div class="w-full sm:w-36">
-                                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Unit Cost ($)</label>
+                                <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Unit Buying Cost (ETB)</label>
                                 <input type="number" step="0.01" :name="`items[${index}][unit_cost]`" x-model.number="item.unit_cost" @focus="$event.target.select()" min="0" placeholder="0.00" required class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm font-semibold focus:ring-2 focus:ring-indigo-500">
                             </div>
 
                             <div class="w-full sm:w-32 text-right">
                                 <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Subtotal</label>
-                                <span class="text-sm font-bold text-slate-900 block py-2" x-text="`$${((parseFloat(item.quantity) || 0) * (parseFloat(item.unit_cost) || 0)).toFixed(2)}`"></span>
+                                <span class="text-sm font-bold text-slate-900 block py-2" x-text="`${((parseFloat(item.quantity) || 0) * (parseFloat(item.unit_cost) || 0)).toFixed(2)} ETB`"></span>
                             </div>
 
                             <div class="pt-4 sm:pt-0">
@@ -94,17 +94,17 @@
 
                         <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Tax / VAT ($)</label>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Tax / VAT (ETB)</label>
                                 <input type="number" step="0.01" name="tax_amount" x-model.number="tax_amount" @focus="$event.target.select()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-600 mb-1">Shipping Cost ($)</label>
+                                <label class="block text-xs font-semibold text-slate-600 mb-1">Shipping Cost (ETB)</label>
                                 <input type="number" step="0.01" name="shipping_cost" x-model.number="shipping_cost" @focus="$event.target.select()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm">
                             </div>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Supplier Discount ($)</label>
+                            <label class="block text-xs font-semibold text-slate-600 mb-1">Supplier Discount (ETB)</label>
                             <input type="number" step="0.01" name="discount_amount" x-model.number="discount_amount" @focus="$event.target.select()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm">
                         </div>
 
@@ -112,7 +112,7 @@
                             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Initial Settlement</h4>
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <label class="block text-xs text-slate-600 mb-1">Amount Paid ($)</label>
+                                    <label class="block text-xs text-slate-600 mb-1">Amount Paid (ETB)</label>
                                     <input type="number" step="0.01" name="amount_paid" x-model.number="amount_paid" @focus="$event.target.select()" min="0" placeholder="0.00" class="w-full px-3 py-2 rounded-xl bg-white border border-slate-200 text-sm font-bold text-emerald-600">
                                 </div>
                                 <div>
@@ -132,23 +132,23 @@
                         <div class="space-y-3">
                             <div class="flex justify-between text-sm text-slate-400">
                                 <span>Line Items Subtotal:</span>
-                                <span class="font-mono font-medium text-white" x-text="`$${calculateSubtotal().toFixed(2)}`"></span>
+                                <span class="font-mono font-medium text-white" x-text="`${calculateSubtotal().toFixed(2)} ETB`"></span>
                             </div>
                             <div class="flex justify-between text-sm text-slate-400">
                                 <span>Tax & Freight:</span>
-                                <span class="font-mono font-medium text-white" x-text="`+$${((parseFloat(tax_amount) || 0) + (parseFloat(shipping_cost) || 0)).toFixed(2)}`"></span>
+                                <span class="font-mono font-medium text-white" x-text="`+${((parseFloat(tax_amount) || 0) + (parseFloat(shipping_cost) || 0)).toFixed(2)} ETB`"></span>
                             </div>
                             <div class="flex justify-between text-sm text-slate-400">
                                 <span>Discount:</span>
-                                <span class="font-mono font-medium text-amber-400" x-text="`-$${(parseFloat(discount_amount) || 0).toFixed(2)}`"></span>
+                                <span class="font-mono font-medium text-amber-400" x-text="`-${(parseFloat(discount_amount) || 0).toFixed(2)} ETB`"></span>
                             </div>
                             <div class="pt-3 border-t border-slate-800 flex justify-between text-lg font-bold">
                                 <span>Grand Total:</span>
-                                <span class="font-mono text-indigo-400" x-text="`$${calculateGrandTotal().toFixed(2)}`"></span>
+                                <span class="font-mono text-indigo-400" x-text="`${calculateGrandTotal().toFixed(2)} ETB`"></span>
                             </div>
                             <div class="flex justify-between text-sm text-rose-400 pt-1">
                                 <span>Remaining Balance (Debt):</span>
-                                <span class="font-mono font-bold" x-text="`$${Math.max(0, calculateGrandTotal() - (parseFloat(amount_paid) || 0)).toFixed(2)}`"></span>
+                                <span class="font-mono font-bold" x-text="`${Math.max(0, calculateGrandTotal() - (parseFloat(amount_paid) || 0)).toFixed(2)} ETB`"></span>
                             </div>
                         </div>
 
@@ -164,6 +164,10 @@
     </div>
 
     <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('purchaseForm', purchaseForm);
+        });
+
         function purchaseForm() {
             return {
                 catalog: @json($products),
@@ -181,7 +185,11 @@
 
                 addItem() {
                     this.items.push({ product_id: '', quantity: 1, unit_cost: '' });
-                    this.$nextTick(() => lucide.createIcons());
+                    this.$nextTick(() => {
+                        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+                            window.lucide.createIcons();
+                        }
+                    });
                 },
                 removeItem(index) {
                     if (this.items.length > 1) {
@@ -204,7 +212,7 @@
                     const disc = parseFloat(this.discount_amount) || 0;
                     return Math.max(0, sub + tax + ship - disc);
                 }
-            }
+            };
         }
     </script>
 </x-layouts.app>

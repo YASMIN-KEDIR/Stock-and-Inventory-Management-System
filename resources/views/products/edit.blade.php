@@ -60,13 +60,15 @@
                     </div>
 
                     <div>
-                        <label for="cost_price" class="block text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">Cost Price ($) *</label>
+                        <label for="cost_price" class="block text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">Buying / Cost Price (ETB) <span class="text-rose-600">*</span></label>
                         <input type="number" step="0.01" id="cost_price" name="cost_price" value="{{ old('cost_price', $product->cost_price) }}" required min="0" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-3 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100">
+                        <span class="text-xs font-semibold text-slate-500 mt-1 block">Purchase cost (የግዢ ዋጋ)</span>
                     </div>
 
                     <div>
-                        <label for="selling_price" class="block text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">Selling Retail Price ($) *</label>
-                        <input type="number" step="0.01" id="selling_price" name="selling_price" value="{{ old('selling_price', $product->selling_price) }}" required min="0" placeholder="0.00" onfocus="this.select()" class="w-full px-4 py-3 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100">
+                        <label for="selling_price" class="block text-xs font-bold uppercase tracking-wider text-slate-900 mb-2">Selling Price (ETB - Optional)</label>
+                        <input type="number" step="0.01" id="selling_price" name="selling_price" value="{{ old('selling_price', $product->selling_price > 0 ? $product->selling_price : '') }}" min="0" placeholder="Set upon sale" onfocus="this.select()" class="w-full px-4 py-3 rounded-xl bg-white border-2 border-slate-300 text-sm font-bold text-slate-900 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100">
+                        <span class="text-xs font-semibold text-slate-500 mt-1 block">Variable price (በሽያጭ ጊዜ ይወሰናል)</span>
                     </div>
 
                     <div class="sm:col-span-2">

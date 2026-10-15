@@ -28,9 +28,9 @@
                             <th class="px-6 py-4">Invoice #</th>
                             <th class="px-6 py-4">Customer</th>
                             <th class="px-6 py-4">Date</th>
-                            <th class="px-6 py-4 text-right">Grand Total</th>
-                            <th class="px-6 py-4 text-right">Amount Paid</th>
-                            <th class="px-6 py-4 text-right">Remaining Due</th>
+                            <th class="px-6 py-4 text-right">Total Due (ETB)</th>
+                            <th class="px-6 py-4 text-right">Paid (የተከፈለ)</th>
+                            <th class="px-6 py-4 text-right">Remain (ቀሪ ብድር)</th>
                             <th class="px-6 py-4 text-center">Status</th>
                             <th class="px-6 py-4 text-right">Actions</th>
                         </tr>
@@ -50,13 +50,13 @@
                                     {{ $sale->sale_date->format('M d, Y') }}
                                 </td>
                                 <td class="px-6 py-4 text-right font-bold text-slate-900">
-                                    ${{ number_format($sale->grand_total, 2) }}
+                                    {{ number_format($sale->grand_total, 2) }} <span class="text-[11px] font-normal text-slate-500">ETB</span>
                                 </td>
                                 <td class="px-6 py-4 text-right font-medium text-emerald-600">
-                                    ${{ number_format($sale->amount_paid, 2) }}
+                                    {{ number_format($sale->amount_paid, 2) }} <span class="text-[11px] font-normal text-slate-500">ETB</span>
                                 </td>
                                 <td class="px-6 py-4 text-right font-bold {{ $sale->remaining_balance > 0 ? 'text-amber-600' : 'text-slate-400' }}">
-                                    ${{ number_format($sale->remaining_balance, 2) }}
+                                    {{ number_format($sale->remaining_balance, 2) }} <span class="text-[11px] font-normal text-slate-500">ETB</span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold {{ $sale->payment_status === 'PAID' ? 'badge-paid' : ($sale->payment_status === 'PARTIALLY_PAID' ? 'badge-partial' : 'badge-unpaid') }}">

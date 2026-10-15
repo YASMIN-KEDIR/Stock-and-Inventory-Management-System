@@ -72,7 +72,7 @@
                                     <span class="px-2.5 py-1 rounded-md bg-slate-100">{{ $pay->payment_method }}</span>
                                 </td>
                                 <td class="px-6 py-4 text-right font-bold text-emerald-600 text-sm">
-                                    ${{ number_format($pay->amount, 2) }}
+                                    {{ number_format($pay->amount, 2) }} ETB
                                 </td>
                                 <td class="px-6 py-4 text-right text-xs text-slate-500">
                                     {{ $pay->user->name ?? 'Admin' }}

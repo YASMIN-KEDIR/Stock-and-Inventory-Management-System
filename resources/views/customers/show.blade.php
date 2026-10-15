@@ -36,23 +36,23 @@
             <!-- Financial Summary -->
             <div class="grid grid-cols-3 gap-4 mt-8 pt-6 border-t border-slate-100">
                 <div class="p-4 rounded-2xl bg-slate-50">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Invoiced</span>
-                    <p class="text-xl font-black text-slate-900 mt-1">${{ number_format($customer->total_sales, 2) }}</p>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Invoiced (ጠቅላላ ሽያጭ)</span>
+                    <p class="text-xl font-black text-slate-900 mt-1">{{ number_format($customer->total_sales, 2) }} <span class="text-xs font-normal text-slate-500">ETB</span></p>
                 </div>
                 <div class="p-4 rounded-2xl bg-slate-50">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Collected</span>
-                    <p class="text-xl font-black text-emerald-600 mt-1">${{ number_format($customer->total_paid, 2) }}</p>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Collected (የተከፈለ)</span>
+                    <p class="text-xl font-black text-emerald-600 mt-1">{{ number_format($customer->total_paid, 2) }} <span class="text-xs font-normal text-slate-500">ETB</span></p>
                 </div>
                 <div class="p-4 rounded-2xl bg-slate-50">
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Outstanding Receivables</span>
-                    <p class="text-xl font-black text-amber-600 mt-1">${{ number_format($customer->outstanding_balance, 2) }}</p>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Outstanding Debt (ቀሪ ዕዳ / Remain)</span>
+                    <p class="text-xl font-black text-amber-600 mt-1">{{ number_format($customer->outstanding_balance, 2) }} <span class="text-xs font-normal text-slate-500">ETB</span></p>
                 </div>
             </div>
         </div>
 
         <!-- Sales Invoices -->
         <div class="glass-card rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
-            <h2 class="text-lg font-bold text-slate-900 mb-4">Sales & Invoice History</h2>
+            <h2 class="text-lg font-bold text-slate-900 mb-4">Sales & Invoice History (የደንበኛ ሽያጭ እና ብድር መዝገብ)</h2>
 
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-sm">
@@ -60,9 +60,9 @@
                         <tr>
                             <th class="px-4 py-3 rounded-l-xl">Invoice #</th>
                             <th class="px-4 py-3">Sale Date</th>
-                            <th class="px-4 py-3 text-right">Grand Total</th>
-                            <th class="px-4 py-3 text-right">Amount Paid</th>
-                            <th class="px-4 py-3 text-right">Remaining Balance</th>
+                            <th class="px-4 py-3 text-right">Total Due (ETB)</th>
+                            <th class="px-4 py-3 text-right">Paid (የተከፈለ)</th>
+                            <th class="px-4 py-3 text-right">Remain (ቀሪ ብድር)</th>
                             <th class="px-4 py-3 text-center">Status</th>
                             <th class="px-4 py-3 text-right rounded-r-xl">Action</th>
                         </tr>
@@ -72,9 +72,9 @@
                             <tr class="hover:bg-slate-50/80 transition-colors">
                                 <td class="px-4 py-3 font-bold text-slate-900 font-mono text-xs">{{ $sale->invoice_number }}</td>
                                 <td class="px-4 py-3 text-slate-600">{{ $sale->sale_date->format('M d, Y') }}</td>
-                                <td class="px-4 py-3 text-right font-medium text-slate-800">${{ number_format($sale->grand_total, 2) }}</td>
-                                <td class="px-4 py-3 text-right font-medium text-emerald-600">${{ number_format($sale->amount_paid, 2) }}</td>
-                                <td class="px-4 py-3 text-right font-bold {{ $sale->remaining_balance > 0 ? 'text-amber-600' : 'text-slate-400' }}">${{ number_format($sale->remaining_balance, 2) }}</td>
+                                <td class="px-4 py-3 text-right font-medium text-slate-800">{{ number_format($sale->grand_total, 2) }} ETB</td>
+                                <td class="px-4 py-3 text-right font-medium text-emerald-600">{{ number_format($sale->amount_paid, 2) }} ETB</td>
+                                <td class="px-4 py-3 text-right font-bold {{ $sale->remaining_balance > 0 ? 'text-amber-600' : 'text-slate-400' }}">{{ number_format($sale->remaining_balance, 2) }} ETB</td>
                                 <td class="px-4 py-3 text-center">
                                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold {{ $sale->payment_status === 'PAID' ? 'badge-paid' : ($sale->payment_status === 'PARTIALLY_PAID' ? 'badge-partial' : 'badge-unpaid') }}">
                                         {{ $sale->payment_status }}

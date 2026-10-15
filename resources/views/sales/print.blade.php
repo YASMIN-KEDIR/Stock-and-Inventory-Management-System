@@ -111,14 +111,19 @@
 
     <div class="invoice-box">
         <div class="header">
-            <div>
-                <div class="logo">Merkato<span style="color: #059669;">.</span></div>
-                <div style="color: #059669; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px;">Retail POS & Finance</div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 44px; height: 44px; background: #059669; color: #ffffff; border-radius: 12px; font-size: 24px; font-weight: 900; display: flex; align-items: center; justify-content: center; font-family: sans-serif;">
+                    B
+                </div>
+                <div>
+                    <div class="logo">Bedewi <span style="color: #059669;">Sales</span></div>
+                    <div style="color: #059669; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px;">Stock &bull; POS &bull; Inventory</div>
+                </div>
             </div>
             <div style="text-align: right;">
                 <div style="font-size: 18px; font-weight: bold; font-family: monospace;">{{ $sale->invoice_number }}</div>
                 <div style="color: #64748b; font-size: 12px; margin-top: 2px;">Date: {{ $sale->sale_date->format('M d, Y') }}</div>
-                <div style="margin-top: 6px;"><span class="badge">{{ $sale->payment_status }}</span></div>
+                <div style="margin-top: 6px;"><span class="badge">{{ $sale->payment_status === 'PAID' ? 'Fully Paid' : ($sale->payment_status === 'PARTIALLY_PAID' ? 'Partial Credit' : 'Unpaid Credit') }}</span></div>
             </div>
         </div>
 
@@ -133,7 +138,7 @@
             </div>
             <div style="text-align: right;">
                 <div style="font-size: 11px; font-weight: bold; color: #94a3b8; text-transform: uppercase;">Store / Terminal:</div>
-                <div style="font-size: 14px; font-weight: bold; color: #0f172a; margin-top: 4px;">Merkato Store</div>
+                <div style="font-size: 14px; font-weight: bold; color: #0f172a; margin-top: 4px;">Bedewi Sales Store</div>
                 <div style="color: #64748b; font-size: 12px; margin-top: 2px;">Cashier: {{ $sale->user->name ?? 'Cashier' }}</div>
             </div>
         </div>
@@ -156,9 +161,9 @@
                             <div style="color: #94a3b8; font-size: 11px; font-family: monospace;">SKU: {{ $item->product->sku ?? '—' }}</div>
                         </td>
                         <td style="text-align: center; font-weight: bold;">{{ $item->quantity }}</td>
-                        <td style="text-align: right;">${{ number_format($item->unit_price, 2) }}</td>
-                        <td style="text-align: right; color: #d97706;">${{ number_format($item->line_discount, 2) }}</td>
-                        <td style="text-align: right; font-weight: bold;">${{ number_format($item->subtotal, 2) }}</td>
+                        <td style="text-align: right;">{{ number_format($item->unit_price, 2) }} ETB</td>
+                        <td style="text-align: right; color: #d97706;">{{ number_format($item->line_discount, 2) }} ETB</td>
+                        <td style="text-align: right; font-weight: bold;">{{ number_format($item->subtotal, 2) }} ETB</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -166,33 +171,33 @@
 
         <div class="totals">
             <div class="totals-row">
-                <span style="color: #64748b;">Subtotal:</span>
-                <span>${{ number_format($sale->subtotal, 2) }}</span>
+                <span style="color: #64748b;">Subtotal (የእቃዎች ድምር):</span>
+                <span>{{ number_format($sale->subtotal, 2) }} ETB</span>
             </div>
             @if($sale->discount_amount > 0)
                 <div class="totals-row">
-                    <span style="color: #64748b;">Order Discount:</span>
-                    <span style="color: #d97706;">-${{ number_format($sale->discount_amount, 2) }}</span>
+                    <span style="color: #64748b;">Discount (ቅናሽ):</span>
+                    <span style="color: #d97706;">-{{ number_format($sale->discount_amount, 2) }} ETB</span>
                 </div>
             @endif
             @if($sale->tax_amount > 0)
                 <div class="totals-row">
                     <span style="color: #64748b;">Tax / VAT:</span>
-                    <span>+${{ number_format($sale->tax_amount, 2) }}</span>
+                    <span>+{{ number_format($sale->tax_amount, 2) }} ETB</span>
                 </div>
             @endif
             <div class="totals-row grand-total">
-                <span>Grand Total:</span>
-                <span>${{ number_format($sale->grand_total, 2) }}</span>
+                <span>Grand Total (ድምር):</span>
+                <span>{{ number_format($sale->grand_total, 2) }} ETB</span>
             </div>
             <div class="totals-row" style="color: #059669; font-weight: bold;">
-                <span>Amount Paid:</span>
-                <span>${{ number_format($sale->amount_paid, 2) }}</span>
+                <span>Paid Birr (የተከፈለ):</span>
+                <span>{{ number_format($sale->amount_paid, 2) }} ETB</span>
             </div>
             @if($sale->remaining_balance > 0)
-                <div class="totals-row" style="color: #d97706; font-weight: bold;">
-                    <span>Balance Due:</span>
-                    <span>${{ number_format($sale->remaining_balance, 2) }}</span>
+                <div class="totals-row" style="color: #b45309; font-weight: bold; background: #fef3c7; padding: 6px 8px; border-radius: 6px; margin-top: 4px;">
+                    <span>Remain Credit (ቀሪ ብድር):</span>
+                    <span>{{ number_format($sale->remaining_balance, 2) }} ETB</span>
                 </div>
             @endif
         </div>

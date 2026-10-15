@@ -4,8 +4,28 @@
     <x-slot:headerSubtitle>Add Customer Profile</x-slot:headerSubtitle>
 
     <div class="max-w-3xl mx-auto">
-        <div class="glass-card rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs">
-            <h2 class="text-xl font-bold text-slate-900 mb-6">Register Customer Account</h2>
+            <!-- Customer Create Header & Quick Switcher -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-100 mb-6">
+                <div>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-indigo-50 text-indigo-800 border border-indigo-200 mb-1">
+                        Section 3 &bull; Users & Customers
+                    </span>
+                    <h2 class="text-xl font-black text-slate-900">Register Customer Account</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Quickly register customer profile, phone & contact details.</p>
+                </div>
+                
+                <div class="flex items-center bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+                    <a href="{{ route('customers.index') }}" class="px-3 py-1.5 rounded-lg text-slate-700 hover:text-slate-900 font-bold text-xs transition-colors">
+                        👥 View Customers
+                    </a>
+                    <a href="{{ route('suppliers.create') }}" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 font-bold text-xs transition-colors">
+                        🏢 Add Supplier
+                    </a>
+                    <a href="{{ route('products.create') }}" class="px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 font-bold text-xs transition-colors">
+                        📦 Add Product
+                    </a>
+                </div>
+            </div>
 
             <form method="POST" action="{{ route('customers.store') }}" class="space-y-5">
                 @csrf

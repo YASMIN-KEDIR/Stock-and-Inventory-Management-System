@@ -14,20 +14,7 @@ class StockTransactionController extends Controller
 {
     public function index(Request $request)
     {
-        $query = StockTransaction::with(['product', 'user']);
-
-        if ($request->filled('type')) {
-            $query->where('type', $request->input('type'));
-        }
-
-        if ($request->filled('product_id')) {
-            $query->where('product_id', $request->input('product_id'));
-        }
-
-        $transactions = $query->latest('created_at')->paginate(15)->withQueryString();
-        $products = Product::orderBy('name', 'asc')->get();
-
-        return view('stock_transactions.index', compact('transactions', 'products'));
+        return redirect()->route('info.index', array_merge(['tab' => 'stock'], $request->all()));
     }
 
     public function createAdjustment()

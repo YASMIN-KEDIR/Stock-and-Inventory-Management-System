@@ -54,19 +54,19 @@
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-5">
                 <div class="glass-card rounded-2xl p-5 border border-slate-200">
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Sales Revenue</span>
-                    <p class="text-2xl font-black text-slate-900 mt-2">${{ number_format($totalRevenue, 2) }}</p>
+                    <p class="text-2xl font-black text-slate-900 mt-2">{{ number_format($totalRevenue, 2) }} <span class="text-xs text-slate-500">ETB</span></p>
                 </div>
                 <div class="glass-card rounded-2xl p-5 border border-slate-200">
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Cash Collected</span>
-                    <p class="text-2xl font-black text-emerald-600 mt-2">${{ number_format($totalCollected, 2) }}</p>
+                    <p class="text-2xl font-black text-emerald-600 mt-2">{{ number_format($totalCollected, 2) }} <span class="text-xs text-slate-500">ETB</span></p>
                 </div>
                 <div class="glass-card rounded-2xl p-5 border border-slate-200">
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Cost of Goods Sold (COGS)</span>
-                    <p class="text-2xl font-black text-slate-700 mt-2">${{ number_format($totalCost, 2) }}</p>
+                    <p class="text-2xl font-black text-slate-700 mt-2">{{ number_format($totalCost, 2) }} <span class="text-xs text-slate-500">ETB</span></p>
                 </div>
                 <div class="glass-card rounded-2xl p-5 border border-slate-200">
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Gross Profit (Margin)</span>
-                    <p class="text-2xl font-black text-indigo-600 mt-2">${{ number_format($grossProfit, 2) }} <span class="text-xs font-bold text-slate-500">({{ number_format($profitMargin, 1) }}%)</span></p>
+                    <p class="text-2xl font-black text-indigo-600 mt-2">{{ number_format($grossProfit, 2) }} <span class="text-xs text-slate-500">ETB ({{ number_format($profitMargin, 1) }}%)</span></p>
                 </div>
             </div>
 
@@ -79,7 +79,7 @@
                                 <th class="px-6 py-4">Invoice #</th>
                                 <th class="px-6 py-4">Date</th>
                                 <th class="px-6 py-4">Customer</th>
-                                <th class="px-6 py-4 text-right">Revenue</th>
+                                <th class="px-6 py-4 text-right">Revenue (ETB)</th>
                                 <th class="px-6 py-4 text-right">Cost (COGS)</th>
                                 <th class="px-6 py-4 text-right">Gross Profit</th>
                                 <th class="px-6 py-4 text-center">Status</th>
@@ -91,9 +91,9 @@
                                     <td class="px-6 py-4 font-mono font-bold text-slate-900 text-xs">{{ $sale->invoice_number }}</td>
                                     <td class="px-6 py-4 text-slate-600">{{ $sale->sale_date->format('M d, Y') }}</td>
                                     <td class="px-6 py-4 text-slate-800">{{ $sale->customer->name ?? 'Walk-In Customer' }}</td>
-                                    <td class="px-6 py-4 text-right font-bold text-slate-900">${{ number_format($sale->grand_total, 2) }}</td>
-                                    <td class="px-6 py-4 text-right text-slate-500">${{ number_format($sale->total_cost, 2) }}</td>
-                                    <td class="px-6 py-4 text-right font-bold text-emerald-600">${{ number_format($sale->gross_profit, 2) }}</td>
+                                    <td class="px-6 py-4 text-right font-bold text-slate-900">{{ number_format($sale->grand_total, 2) }} ETB</td>
+                                    <td class="px-6 py-4 text-right text-slate-500">{{ number_format($sale->total_cost, 2) }} ETB</td>
+                                    <td class="px-6 py-4 text-right font-bold text-emerald-600">{{ number_format($sale->gross_profit, 2) }} ETB</td>
                                     <td class="px-6 py-4 text-center">
                                         <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold {{ $sale->payment_status === 'PAID' ? 'badge-paid' : 'badge-unpaid' }}">
                                             {{ $sale->payment_status }}
@@ -122,15 +122,15 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
                 <div class="glass-card rounded-2xl p-5 border border-slate-200">
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Stock Value (At Cost)</span>
-                    <p class="text-2xl font-black text-slate-900 mt-2">${{ number_format($valuationCost, 2) }}</p>
+                    <p class="text-2xl font-black text-slate-900 mt-2">{{ number_format($valuationCost, 2) }} <span class="text-xs text-slate-500">ETB</span></p>
                 </div>
                 <div class="glass-card rounded-2xl p-5 border border-slate-200">
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Stock Value (Retail)</span>
-                    <p class="text-2xl font-black text-indigo-600 mt-2">${{ number_format($valuationRetail, 2) }}</p>
+                    <p class="text-2xl font-black text-indigo-600 mt-2">{{ number_format($valuationRetail, 2) }} <span class="text-xs text-slate-500">ETB</span></p>
                 </div>
                 <div class="glass-card rounded-2xl p-5 border border-slate-200">
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Potential Inventory Margin</span>
-                    <p class="text-2xl font-black text-emerald-600 mt-2">${{ number_format($potentialProfit, 2) }}</p>
+                    <p class="text-2xl font-black text-emerald-600 mt-2">{{ number_format($potentialProfit, 2) }} <span class="text-xs text-slate-500">ETB</span></p>
                 </div>
             </div>
 
@@ -142,7 +142,7 @@
                                 <th class="px-6 py-4">Product Name & SKU</th>
                                 <th class="px-6 py-4">Category</th>
                                 <th class="px-6 py-4 text-center">Stock Level</th>
-                                <th class="px-6 py-4 text-right">Unit Cost</th>
+                                <th class="px-6 py-4 text-right">Buying Cost</th>
                                 <th class="px-6 py-4 text-right">Selling Price</th>
                                 <th class="px-6 py-4 text-right">Valuation (Cost)</th>
                                 <th class="px-6 py-4 text-right">Valuation (Retail)</th>
@@ -159,10 +159,16 @@
                                     <td class="px-6 py-4 text-center font-bold {{ $prod->current_stock <= $prod->minimum_stock_level ? 'text-amber-600' : 'text-slate-800' }}">
                                         {{ $prod->current_stock }} {{ $prod->unit }}
                                     </td>
-                                    <td class="px-6 py-4 text-right text-slate-600">${{ number_format($prod->cost_price, 2) }}</td>
-                                    <td class="px-6 py-4 text-right font-semibold text-slate-900">${{ number_format($prod->selling_price, 2) }}</td>
-                                    <td class="px-6 py-4 text-right font-medium text-slate-700">${{ number_format($prod->stock_valuation_at_cost, 2) }}</td>
-                                    <td class="px-6 py-4 text-right font-bold text-emerald-600">${{ number_format($prod->stock_valuation_at_retail, 2) }}</td>
+                                    <td class="px-6 py-4 text-right text-slate-600">{{ number_format($prod->cost_price, 2) }} ETB</td>
+                                    <td class="px-6 py-4 text-right font-semibold text-slate-900">
+                                        @if($prod->selling_price > 0)
+                                            {{ number_format($prod->selling_price, 2) }} ETB
+                                        @else
+                                            <span class="text-xs text-slate-400">Dynamic</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 text-right font-medium text-slate-700">{{ number_format($prod->stock_valuation_at_cost, 2) }} ETB</td>
+                                    <td class="px-6 py-4 text-right font-bold text-emerald-600">{{ number_format($prod->stock_valuation_at_retail, 2) }} ETB</td>
                                 </tr>
                             @endforeach
                         </tbody>
